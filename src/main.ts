@@ -7,6 +7,7 @@ import { createPinia } from 'pinia'
 import { VueQueryPlugin } from '@tanstack/vue-query'
 import App from './App.vue'
 import { router } from './router'
+import { ThemePreset } from './config/theme';
 
 
 const pinia = createPinia()
@@ -18,7 +19,7 @@ app.use(router)
 app.use(VueQueryPlugin)
 app.use(PrimeVue, {
     theme: {
-        preset: Aura,
+        preset: ThemePreset,
         options: {
             darkModeSelector: '.my-app-dark',
         }

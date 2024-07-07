@@ -2,7 +2,7 @@
 
 const toggleColorScheme=()=> {
     const element = document.querySelector('html');
-    element.classList.toggle('my-app-dark');
+    element?.classList.toggle('my-app-dark');
 }
 
 
