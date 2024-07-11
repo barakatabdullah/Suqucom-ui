@@ -1,3 +1,15 @@
 @layer tailwind-base, primevue;
 
 @import '@unocss/reset/tailwind.css'layer(tailwind-reset) ;
+
+
+*{
+    font-size : 14px;
+}
+
+
+body{
+    width:100vw;
+    min-height:100vh;
+    overflow-x:hidden;
+}

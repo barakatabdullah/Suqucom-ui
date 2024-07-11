@@ -1,13 +1,10 @@
 <script setup lang="ts">
-
-const toggleColorScheme=()=> {
-    const element = document.querySelector('html');
-    element?.classList.toggle('my-app-dark');
-}
-
-
+const toggleColorScheme = () => {
+  const element = document.querySelector("html");
+  element?.classList.toggle("s-dark-mode");
+};
 </script>
-<template>
-    <Button label="Toggle Color Scheme" @click="toggleColorScheme" />
 
+<template>
+  <Button label="Toggle Color Scheme" @click="toggleColorScheme" />
 </template>
