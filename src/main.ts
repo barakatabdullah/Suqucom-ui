@@ -1,11 +1,11 @@
 import 'virtual:uno.css'
+import './styles/index.css'
 
 import { createApp } from 'vue'
 import PrimeVue from 'primevue/config';
-import Aura from '@primevue/themes/aura';
 import { createPinia } from 'pinia'
 import { VueQueryPlugin } from '@tanstack/vue-query'
-import App from './App.vue'
+import App from '@/App.vue'
 import { router } from './router'
 import { ThemePreset } from './config/theme';
 
@@ -21,7 +21,7 @@ app.use(PrimeVue, {
     theme: {
         preset: ThemePreset,
         options: {
-            darkModeSelector: '.my-app-dark',
+            darkModeSelector: '.s-dark-mode',
         }
     }
 })
