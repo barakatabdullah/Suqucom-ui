@@ -20,7 +20,7 @@
     "@fontsource-variable/red-hat-display": "^5.0.21",
     "@primevue/themes": "4.0.0-rc.2",
     "@tanstack/vue-query": "^5.37.1",
-    "@unocss/reset": "^0.60.3",
+    "@unocss/reset": "^0.60.4",
     "axios": "^1.7.2",
     "pinia": "^2.1.7",
     "primevue": "4.0.0-rc.2",

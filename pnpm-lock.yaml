@@ -18,7 +18,7 @@ dependencies:
     specifier: ^5.37.1
     version: 5.45.0(vue@3.4.29)
   '@unocss/reset':
-    specifier: ^0.60.3
+    specifier: ^0.60.4
     version: 0.60.4
   axios:
     specifier: ^1.7.2
