@@ -7,10 +7,12 @@ import StepPanel from "primevue/steppanel";
 import { useForm } from "vee-validate";
 import * as zod from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
+import { useMutation } from "@tanstack/vue-query";
+import api from "@/config/axios";
 
 const RegisterSchema = toTypedSchema(
   zod.object({
-    username: zod.string().min(3, { message: "Username must be at least 3 characters" }),
+    // username: zod.string().min(3, { message: "Username must be at least 3 characters" }),
     email: zod.string().email({ message: "Invalid Email" }),
     password: zod.string().min(8, { message: "Password must be at least 8 characters" }),
     passwordConfirmation: zod
@@ -18,11 +20,11 @@ const RegisterSchema = toTypedSchema(
       .min(8, { message: "Password must be at least 8 characters" }),
     fname: zod.string().min(3, { message: "First name must be at least 3 characters" }),
     lname: zod.string().min(3, { message: "Last name must be at least 3 characters" }),
-    phone: zod.string().min(9, { message: "Phone must be at least 10 characters" }),
-    address: zod.string().min(3, { message: "Address must be at least 3 characters" }),
+    phone: zod.number().min(9, { message: "Phone must be at least 10 characters" }),
+    // address: zod.string().min(3, { message: "Address must be at least 3 characters" }),
     city: zod.string().min(3, { message: "City must be at least 3 characters" }),
-    state: zod.string().min(3, { message: "State must be at least 3 characters" }),
-    zip: zod.string().min(5, { message: "Zip must be at least 5 characters" }),
+    // state: zod.string().min(3, { message: "State must be at least 3 characters" }),
+    // zip: zod.string().min(5, { message: "Zip must be at least 5 characters" }),
   })
 );
 
@@ -30,7 +32,7 @@ const { defineField, handleSubmit, resetForm, errors } = useForm({
   validationSchema: RegisterSchema,
 });
 
-const [userName] = defineField("username");
+// const [userName] = defineField("username");
 const [email] = defineField("email");
 const [password] = defineField("password");
 const [passwordConfirmation] = defineField("passwordConfirmation");
@@ -38,13 +40,38 @@ const [passwordConfirmation] = defineField("passwordConfirmation");
 const [fname] = defineField("fname");
 const [lname] = defineField("lname");
 const [phone] = defineField("phone");
-const [address] = defineField("address");
+// const [address] = defineField("address");
 const [city] = defineField("city");
-const [state] = defineField("state");
-const [zip] = defineField("zip");
+// const [state] = defineField("state");
+// const [zip] = defineField("zip");
+
+
+
+// Mutation
+const { mutateAsync } = useMutation({
+  mutationFn: async (data:any) => {
+    const res = await api
+      .post('register', {
+        email: data.email,
+        password: data.password,
+        password_confirmation: data.passwordConfirmation,
+        fname: data.fname,
+        lname: data.lname,
+        phone: data.phone,
+        city: data.city,
+      })
+      .then((res) => res.data)
+    return res
+  },
+  onSuccess: (data) => {
+
+    console.log('data',data)
+  }
+})
+
 
 const onSubmit = handleSubmit((values) => {
-  console.log("Submitted with", values);
+  mutateAsync(values)
 });
 
 const check = () => {
@@ -112,8 +139,8 @@ const activeStep = ref(1);
                   >Enter Your Account Details</span
                 >
               </div>
-              <div class="grid grid-cols-2 gap-4">
-                <div class="flex flex-col gap-1">
+              <div class="grid grid-cols-1 gap-4">
+                <!-- <div class="flex flex-col gap-1">
                   <label class="font-semibold text-[#4b465c82] text-3.5" for="username"
                     >User Name</label
                   >
@@ -122,7 +149,7 @@ const activeStep = ref(1);
                     v-model="userName"
                     :class="{ 'p-invalid': errors.username }"
                   />
-                </div>
+                </div> -->
 
                 <div class=" flex flex-col gap-1">
                   <label class="text-[#4b465c82] text-3.5 font-semibold" for="email"
@@ -204,7 +231,7 @@ const activeStep = ref(1);
                   <label class="font-semibold text-[#4b465c82] text-3.5" for="phone">Phone</label>
                   <InputNumber id="phone" v-model="phone" :class="{ 'p-invalid': errors.phone }" />
                 </div>
-                <div class="flex flex-col gap-1">
+                <!-- <div class="flex flex-col gap-1">
                   <label class="font-semibold text-[#4b465c82] text-3.5" for="zip">Zip</label>
                   <InputNumber id="zip" v-model="zip" :class="{ 'p-invalid': errors.zip }" />
                 </div>
@@ -215,15 +242,15 @@ const activeStep = ref(1);
                     v-model="address"
                     :class="['col-span-2', { 'p-invalid': errors.address }]"
                   />
-                </div>
+                </div> -->
                 <div class="flex flex-col gap-1">
                   <label class="font-semibold text-[#4b465c82] text-3.5" for="city">City</label>
                   <InputText id="city" v-model="city" :class="{ 'p-invalid': errors.city }" />
                 </div>
-                <div class="flex flex-col gap-1">
+                <!-- <div class="flex flex-col gap-1">
                   <label class="font-semibold text-[#4b465c82] text-3.5" for="state">State</label>
                   <InputText id="state" v-model="state" :class="{ 'p-invalid': errors.state }" />
-                </div>
+                </div> -->
               </div>
               <div class="flex pt-6 justify-between">
                 <Button
