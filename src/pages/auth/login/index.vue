@@ -4,6 +4,9 @@ import * as zod from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useMutation } from '@tanstack/vue-query'
 import api from '@/config/axios'
+import { router } from '@/router'
+
+const userStore = useUserStore()
 const RegisterSchema = toTypedSchema(
   zod.object({
     email: zod.string().email({ message: 'Invalid Email' }),
@@ -30,7 +33,13 @@ const { mutateAsync } = useMutation({
     return res
   },
   onSuccess: (data) => {
-    console.log('data', data)
+    userStore.user.name= data.data.user.fname + ' ' + data.data.user.lname
+    userStore.user.token = data.data.token
+    
+    localStorage.setItem('user',data.data.user.fname + ' ' + data.data.user.lname)
+    localStorage.setItem('token',data.data.token)
+
+    router.push({ name: 'Home' })
   }
 })
 
@@ -38,9 +47,6 @@ const onSubmit = handleSubmit((values) => {
   mutateAsync(values)
 })
 
-const check = () => {
-  console.log(errors.value)
-}
 </script>
 
 <template>
@@ -82,8 +88,9 @@ const check = () => {
 </template>
 
 <route lang="yaml">
-meta:
-  layout: auth
-  left: 'Welcome'
-  span: 4
+  name: Login
+  meta:
+    layout: auth
+    left: 'Welcome'
+    span: 4
 </route>

@@ -8,3 +8,9 @@ const toggleColorScheme = () => {
 <template>
   <Button label="Toggle Color Scheme" @click="toggleColorScheme" />
 </template>
+
+<route lang="yaml">
+  name: Home
+  meta:
+  requiresAuth: true
+  </route>
