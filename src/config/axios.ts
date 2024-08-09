@@ -1,6 +1,8 @@
 import axios from 'axios'
 
+
 const api = axios.create({
+  
   baseURL: '/api',
 
   // Request timeout
@@ -8,7 +10,9 @@ const api = axios.create({
 
   // Request headers
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+    
   }
 })
 

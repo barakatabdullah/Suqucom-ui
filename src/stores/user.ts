@@ -15,6 +15,10 @@ export const useUserStore = defineStore('User', {
     }
   },
   actions: {
+    getUserToken() {
+      return this.user.token
+    }
+
     // logout() {
     //   api
     //     .get(`/user/logout`, {
@@ -39,3 +43,7 @@ export const useUserStore = defineStore('User', {
 
   }
 })
+
+
+
+
