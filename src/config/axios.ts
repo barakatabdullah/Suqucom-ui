@@ -1,19 +1,23 @@
-import axios from 'axios'
-
+import axios, { type AxiosRequestHeaders } from 'axios';
 
 const api = axios.create({
-  
-  baseURL: '/api',
-
   // Request timeout
   timeout: 60000,
+});
 
-  // Request headers
-  headers: {
+// Add a request interceptor
+api.interceptors.request.use((config) => {
+  const userStore = useUserStore();
+  // Set the base URL
+  config.baseURL = '/api';
+
+  // Set the request headers
+  config.headers = {
     'Content-Type': 'application/json',
-    'Authorization': 'Bearer ' + localStorage.getItem('token')
-    
-  }
-})
+    'Authorization': 'Bearer ' + userStore.getUserToken(),
+  } as AxiosRequestHeaders;
 
-export default api
+  return config;
+});
+
+export default api;

@@ -8,7 +8,7 @@ import { VueQueryPlugin } from '@tanstack/vue-query'
 import App from '@/App.vue'
 import { router } from './router'
 import { ThemePreset } from './config/theme';
-
+import Tooltip from 'primevue/tooltip';
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -25,5 +25,7 @@ app.use(PrimeVue, {
         }
     }
 })
+app.directive('tooltip', Tooltip);
 
 app.mount('#app')
+
