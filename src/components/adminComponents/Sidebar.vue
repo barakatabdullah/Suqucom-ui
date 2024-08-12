@@ -11,6 +11,16 @@ const navItems = [
         icon: 'i-hugeicons-dashboard-square-01',
         to: 'Dashboard' as const
     },
+    {
+        name: 'Users',
+        icon: 'i-hugeicons-user-multiple',
+        to: 'Users' as const
+    },
+    // {
+    //     name: 'Settings',
+    //     icon: 'i-hugeicons-settings-01',
+    //     to: 'Settings' as const
+    // }
 
 ];
 const route = useRoute();
