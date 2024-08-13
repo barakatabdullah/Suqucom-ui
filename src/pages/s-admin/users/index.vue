@@ -21,7 +21,7 @@ const { data } = useQuery({
         <p class="text-gray-600">You can View, Add, Edit and Remove users</p>
       </div>
 
-      <Button as="router-link" @click="()=>$router.push({name:'Users-add'})" label="Add User" />
+      <Button  @click="()=>$router.push({name:'Users-add'})" label="Add User" />
     </div>
 
     <DataTable class="rounded-lg border overflow-hidden" :value="data" stripedRows>
@@ -50,6 +50,26 @@ const { data } = useQuery({
       <Column filed="created_at" header="Joind at">
         <template #body="slotProps">
           {{ moment(slotProps.data.created_at).format("MMM Do YY") }}
+        </template>
+      </Column>
+
+      <Column filed="edit" >
+        <template #body="slotProps">
+          <Button
+          @click="()=>$router.push({name:'Users-edit'})"
+          icon="i-heroicons-pencil-square"
+          text
+          />
+        </template>
+      </Column>
+      <Column filed="remove" >
+        <template #body="slotProps">
+          <Button
+          @click="()=>$router.push({name:'Users-edit'})"
+          icon="i-heroicons-trash"
+          text
+          severity="danger"
+          />
         </template>
       </Column>
 
