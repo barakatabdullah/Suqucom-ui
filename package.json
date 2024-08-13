@@ -23,6 +23,7 @@
     "@unocss/reset": "^0.60.4",
     "@vee-validate/zod": "^4.13.2",
     "axios": "^1.7.2",
+    "moment": "^2.30.1",
     "pinia": "^2.1.7",
     "primevue": "4.0.0-rc.2",
     "vee-validate": "^4.13.2",
