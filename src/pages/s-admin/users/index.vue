@@ -15,9 +15,13 @@ const { data } = useQuery({
 
 <template>
   <div class="border rounded-6 w-full h-full p-9 flex flex-col gap-6">
-    <div class="flex flex-col gap-2 items-start">
-      <h2 class="font-600 text-6 text-color">USERS</h2>
-      <p class="text-gray-600">You can View, Add, Edit and Remove users</p>
+    <div class="w-full flex items-center justify-between">
+      <div class="flex flex-col gap-2 items-start">
+        <h2 class="font-600 text-6 text-color">USERS</h2>
+        <p class="text-gray-600">You can View, Add, Edit and Remove users</p>
+      </div>
+
+      <Button as="router-link" @click="()=>$router.push({name:'Users-add'})" label="Add User" />
     </div>
 
     <DataTable class="rounded-lg border overflow-hidden" :value="data" stripedRows>
