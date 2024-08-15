@@ -15,6 +15,7 @@ api.interceptors.request.use((config) => {
   config.headers = {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer ' + userStore.getUserToken(),
+    ...config.headers, // Allow overriding existing headers
   } as AxiosRequestHeaders;
 
   return config;
