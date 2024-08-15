@@ -43,7 +43,7 @@ const route = useRoute();
                 <router-link v-for="item in navItems" :key="item.to"
                     v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.name } : null"
                     :to="{ name: item.to }" :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
-                        { 'bg-[#E5E7EB]': route.name === item.to }
+                        { 'bg-[#E5E7EB]':   route.name.includes(item.to) }
                     ]">
                     <i :class="[item.icon, 'text-5']"></i>
                     <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.name }}</span>

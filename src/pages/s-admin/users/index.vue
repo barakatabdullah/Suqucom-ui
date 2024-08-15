@@ -4,12 +4,19 @@ import { getUsers } from './_utils/users';
 import moment from 'moment';
 
 
+const router = useRouter()
+
+
 
 const { data } = useQuery({
   queryKey: ['users'],
   queryFn: getUsers,
   select: (data) => data.data
 })
+
+function onRowClick(data: any) {
+  router.push({ name: 'Users-id', params: { id: data.value.id } })
+}
 
 </script>
 
@@ -24,7 +31,7 @@ const { data } = useQuery({
       <Button  @click="()=>$router.push({name:'Users-add'})" label="Add User" />
     </div>
 
-    <DataTable class="rounded-lg border overflow-hidden" :value="data" stripedRows>
+    <DataTable class="rounded-lg border overflow-hidden" rowHover @row-click="onRowClick" :value="data">
       <Column filed="avatar" header="Avatar">
         <template #body="slotProps">
           <Avatar :image="slotProps.data.avatar" size="xlarge" />
@@ -56,7 +63,7 @@ const { data } = useQuery({
       <Column filed="edit" >
         <template #body="slotProps">
           <Button
-          @click="()=>$router.push({name:'Users-edit'})"
+          @click="()=>$router.push({name:'Users-id', params: { id: slotProps.data.id }, query: { mode: 'edit' }})"
           icon="i-heroicons-pencil-square"
           text
           />
@@ -65,7 +72,7 @@ const { data } = useQuery({
       <Column filed="remove" >
         <template #body="slotProps">
           <Button
-          @click="()=>$router.push({name:'Users-edit'})"
+          @click="()=>$router.push({name:'Users-add'})"
           icon="i-heroicons-trash"
           text
           severity="danger"

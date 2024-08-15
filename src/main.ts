@@ -9,6 +9,7 @@ import App from '@/App.vue'
 import { router } from './router'
 import { ThemePreset } from './config/theme';
 import Tooltip from 'primevue/tooltip';
+import ToastService from 'primevue/toastservice';
 
 const pinia = createPinia()
 const app = createApp(App)
@@ -26,6 +27,7 @@ app.use(PrimeVue, {
     }
 })
 app.directive('tooltip', Tooltip);
+app.use(ToastService);
 
 app.mount('#app')
 
