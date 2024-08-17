@@ -7,7 +7,7 @@ import api from '@/config/axios'
 import { router } from '@/router'
 
 const userStore = useUserStore()
-const RegisterSchema = toTypedSchema(
+const LoginSchema = toTypedSchema(
   zod.object({
     email: zod.string().email({ message: 'Invalid Email' }),
     password: zod.string().min(8, { message: 'Password must be at least 8 characters' })
@@ -15,7 +15,7 @@ const RegisterSchema = toTypedSchema(
 )
 
 const { defineField, handleSubmit, errors } = useForm({
-  validationSchema: RegisterSchema
+  validationSchema: LoginSchema
 })
 
 const [email] = defineField('email')

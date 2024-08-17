@@ -6,7 +6,18 @@ export async function getUsers(){
       return data
 }
 
-export async function getUser(id: string){
+export async function getUserbyId(id: number){
     return await api.get(`users/${id}`)
     
+}
+
+
+export async function getAllPermissions(){
+    const {data} = await api.get('permissions')
+      return data
+}
+
+export async function getAllRoles(){
+    const {data} = await api.get('roles')
+      return data
 }

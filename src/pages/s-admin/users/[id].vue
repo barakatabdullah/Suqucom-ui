@@ -2,6 +2,7 @@
 import { getUser } from '@/_utils';
 import { useQuery } from '@tanstack/vue-query';
 import moment from 'moment';
+import { getUserbyId } from './_utils/users';
 
 const route = useRoute()
 const userId = (route.params as { id: number }).id;
@@ -12,10 +13,11 @@ function toggleMode() {
   mode.value = mode.value === 'view' ? 'edit' : 'view'
 }
 
-const {data} = useQuery({
-    queryKey: ['users', userId],
-    queryFn: getUser,
-})
+const { data } = useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => getUserbyId(userId),
+});
+
 
 
 const fileupload = ref();

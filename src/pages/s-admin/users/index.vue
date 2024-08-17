@@ -34,7 +34,14 @@ function onRowClick(data: any) {
     <DataTable class="rounded-lg border overflow-hidden" rowHover @row-click="onRowClick" :value="data">
       <Column filed="avatar" header="Avatar">
         <template #body="slotProps">
-          <Avatar :image="slotProps.data.avatar" size="xlarge" />
+          <Avatar :pt="{
+            root:{
+              class:'overflow-hidden'
+            },
+            image:{
+              class:'object-cover'
+            }
+          }" :image="slotProps.data.avatar" size="xlarge" />
         </template>
       </Column>
       <Column filed="name" header="Name">
