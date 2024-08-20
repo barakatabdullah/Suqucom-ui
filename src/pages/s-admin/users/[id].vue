@@ -2,7 +2,7 @@
 import { getUser } from '@/_utils';
 import moment from 'moment';
 import { getUserbyId } from './_utils/users';
-import { useMutation, useQuery } from '@tanstack/vue-query';
+import { useQueryClient, useMutation, useQuery } from '@tanstack/vue-query';
 import * as zod from 'zod'
 import { getAllPermissions, getAllRoles } from './_utils/users';
 import { toTypedSchema } from '@vee-validate/zod';
@@ -17,6 +17,7 @@ import api from '@/config/axios';
 import Toast from 'primevue/toast';
 
 import { useToast } from 'primevue/usetoast';
+
 
 const route = useRoute()
 const userId = (route.params as { id: number }).id;
@@ -38,6 +39,7 @@ const { data } = useQuery({
 
 
 const toast = useToast();
+const queryClient = useQueryClient();
 
 const UserSchema = toTypedSchema(
     zod.object({
@@ -69,7 +71,7 @@ watchEffect(() => {
             fname: data.value.fname,
             lname: data.value.lname,
             email: data.value.email,
-            role: data.value.roles[0].id,
+            role: data.value.roles[0]?.id,
         });
     }
 })
@@ -79,13 +81,15 @@ watchEffect(() => {
 const { mutateAsync } = useMutation({
     mutationFn: async (data: any) => {
         const res = await api
-            .post('users', {
-                fname: data.fname,
-                lname: data.lname,
-                email: data.email,
-                password: data.password,
-                role: data.role,
-                avatar: fileupload.value.files[0]
+            .post('users/'+userId, {
+            fname: data.fname,
+            lname: data.lname,
+            email: data.email,
+            password: data.password,
+            role: data.role,
+            avatar: fileupload.value.files[0],
+            _method: "put"
+            
             }, {
                 headers: {
                     'content-type': 'multipart/form-data'
@@ -95,9 +99,8 @@ const { mutateAsync } = useMutation({
         return res
     },
     onSuccess: () => {
-        resetForm()
-        fileupload.value.clear()
-        toast.add({ severity: 'info', summary: 'Success', detail: 'User added successfully', life: 3000 });
+        toast.add({ severity: 'info', summary: 'Success', detail: 'User Updated successfully', life: 3000 });
+        queryClient.invalidateQueries(['users', 'user']);
     },
     onError: (error) => {
         toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
@@ -111,10 +114,10 @@ const onSubmit = handleSubmit((values) => {
 
 
 
-const { data: permissions } = useQuery({
-    queryKey: ['permissions'],
-    queryFn: getAllPermissions,
-});
+// const { data: permissions } = useQuery({
+//     queryKey: ['permissions'],
+//     queryFn: getAllPermissions,
+// });
 
 const { data: roles } = useQuery({
     queryKey: ['roles'],
@@ -123,24 +126,12 @@ const { data: roles } = useQuery({
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 
 
 <template>
     <div class="border rounded-6 w-full h-full p-9 flex flex-col gap-6">
+        <Toast />
         <div class="w-full flex items-center justify-between">
             <div class="flex flex-col gap-2 items-start">
                 <h2 class="font-600 text-6 text-color">{{ mode === 'view' ? "View" : "Edit" }} User</h2>
@@ -163,7 +154,7 @@ const { data: roles } = useQuery({
                         class: 'h-full '
                     }
 
-                }" class="h-full" ref="fileupload" name="demo[]" accept="image/*" :maxFileSize="1000000" customUpload>
+                }" class="h-full" ref="fileupload" name="demo[]" accept="image/*" :maxFileSize="2000000" customUpload>
                     <template #header="{ chooseCallback, clearCallback, files }">
                         <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
                             <div class="flex gap-2">
@@ -231,7 +222,7 @@ const { data: roles } = useQuery({
 
                 <div v-else-if="mode === 'view' && data"
                     class="flex flex-col border rounded-6 overflow-hidden  w-full gap-2 h-full">
-                    <img class="w-full h-full object-cover " :src="data.avatar" alt="avatar" />
+                    <img class="w-full h-full object-cover " :src="data.media[0].preview_url" alt="avatar" />
 
                 </div>
 
@@ -262,9 +253,30 @@ const { data: roles } = useQuery({
                             placeholder="select a role" :class="{ 'p-invalid': errors.role }" />
                         <span v-if="errors.role" class="text-red-500">{{ errors.role }}</span>
                     </div>
-                    <Button class="col-span-2" type="submit" label="Add" />
+                    <Button class="col-span-2" type="submit" label="Edit" />
 
 
+                </div>
+
+                <div v-else-if="mode ==='view'" class="grid grid-cols-2 gap-6">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">First Name</label>
+                            <div>{{ fname }}</div>
+
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[#4b465c82] text-3.5 font-semibold" for="lname">Last Name</label>
+                        <div>{{ lname }}</div>
+                    </div>
+                    <div class="flex flex-col gap-1 col-span-2">
+                        <label class="text-[#4b465c82] text-3.5 font-semibold" for="email">Email</label>
+                        <div>{{ email }}</div>
+                    </div>
+
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[#4b465c82] text-3.5 font-semibold" for="role">Role</label>
+                        <div>{{ data?.roles[0]?.name }}</div>
+                    </div>
                 </div>
             </div>
 

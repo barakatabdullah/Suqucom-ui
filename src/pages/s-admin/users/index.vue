@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import { useQuery } from '@tanstack/vue-query';
-import { getUsers } from './_utils/users';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
+import { deleteUser, getUsers } from './_utils/users';
 import moment from 'moment';
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
 
 
 const router = useRouter()
+const toast = useToast();
+const queryClient = useQueryClient();
 
 
 
@@ -14,14 +18,29 @@ const { data } = useQuery({
   select: (data) => data.data
 })
 
-function onRowClick(data: any) {
-  router.push({ name: 'Users-id', params: { id: data.value.id } })
+function onRowClick(row: any) {
+  router.push({ name: 'Users-id', params: { id: row.data.id } })
+
 }
+
+const { mutateAsync:removeMutate } = useMutation({
+    mutationFn: async (id:number) => {
+        await deleteUser(id);
+    },
+    onSuccess: () => {
+        toast.add({ severity: 'info', summary: 'Success', detail: 'User deleted successfully', life: 3000 });
+        queryClient.invalidateQueries(['users']);
+    },
+    onError: (error) => {
+        toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
+    }
+})
 
 </script>
 
 <template>
   <div class="border rounded-6 w-full h-full p-9 flex flex-col gap-6">
+    <Toast/>
     <div class="w-full flex items-center justify-between">
       <div class="flex flex-col gap-2 items-start">
         <h2 class="font-600 text-6 text-color">USERS</h2>
@@ -31,7 +50,15 @@ function onRowClick(data: any) {
       <Button  @click="()=>$router.push({name:'Users-add'})" label="Add User" />
     </div>
 
-    <DataTable class="rounded-lg border overflow-hidden" rowHover @row-click="onRowClick" :value="data">
+<div class="h-full overflow-y-auto">
+  <DataTable
+  :pt="{
+    bodyRow:{
+      class:'cursor-pointer'
+    }
+    }"
+  
+  class="rounded-lg border overflow-hidden" rowHover @rowClick="onRowClick" :value="data">
       <Column filed="avatar" header="Avatar">
         <template #body="slotProps">
           <Avatar :pt="{
@@ -41,7 +68,7 @@ function onRowClick(data: any) {
             image:{
               class:'object-cover'
             }
-          }" :image="slotProps.data.avatar" size="xlarge" />
+          }" :image="slotProps.data.media[0]?.preview_url" size="xlarge" />
         </template>
       </Column>
       <Column filed="name" header="Name">
@@ -79,7 +106,7 @@ function onRowClick(data: any) {
       <Column filed="remove" >
         <template #body="slotProps">
           <Button
-          @click="()=>$router.push({name:'Users-add'})"
+          @click="removeMutate(slotProps.data.id)"
           icon="i-heroicons-trash"
           text
           severity="danger"
@@ -93,6 +120,7 @@ function onRowClick(data: any) {
 
 
     </DataTable>
+</div>
   </div>
 </template>
 
