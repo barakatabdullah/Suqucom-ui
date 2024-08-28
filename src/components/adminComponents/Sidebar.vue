@@ -16,6 +16,11 @@ const navItems = [
         icon: 'i-hugeicons-user-multiple',
         to: 'Users' as const
     },
+    {
+        name: 'Roles',
+        icon: 'i-hugeicons-mentoring',
+        to: 'Roles' as const
+    },
     // {
     //     name: 'Settings',
     //     icon: 'i-hugeicons-settings-01',

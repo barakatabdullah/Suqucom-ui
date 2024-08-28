@@ -4,7 +4,7 @@ import moment from 'moment';
 import { getUserbyId } from './_utils/users';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/vue-query';
 import * as zod from 'zod'
-import { getAllPermissions, getAllRoles } from './_utils/users';
+import { getAllPermissions, getAllRoles } from '../../../_utils';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 
@@ -222,7 +222,7 @@ const { data: roles } = useQuery({
 
                 <div v-else-if="mode === 'view' && data"
                     class="flex flex-col border rounded-6 overflow-hidden  w-full gap-2 h-full">
-                    <img class="w-full h-full object-cover " :src="data.media[0].preview_url" alt="avatar" />
+                    <img class="w-full h-full object-cover " :src="data.media[0]?.preview_url" alt="avatar" />
 
                 </div>
 

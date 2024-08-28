@@ -13,15 +13,6 @@ export async function getUserbyId(id: number){
 }
 
 
-export async function getAllPermissions(){
-    const {data} = await api.get('permissions')
-      return data
-}
-
-export async function getAllRoles(){
-     const{data }= await api.get('roles')
-      return data
-}
 
 export async function deleteUser(id: number){
     const {data} = await api.delete(`users/${id}`)
