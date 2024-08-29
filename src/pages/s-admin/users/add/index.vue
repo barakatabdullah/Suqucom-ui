@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { useMutation, useQuery } from '@tanstack/vue-query';
 import * as zod from 'zod'
-import { getAllPermissions, getAllRoles } from '../_utils/users';
+import { getAllPermissions, getAllRoles } from '../../../../_utils';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 

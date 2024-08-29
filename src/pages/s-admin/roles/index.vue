@@ -19,7 +19,7 @@ const { data: roles } = useQuery({
 
 
 function onRowClick(row: any) {
-    //   router.push({ name: 'Users-id', params: { id: row.data.id } })
+    router.push({ name: 'Roles-id', params: { id: row.data.id } })
 
 }
 
@@ -60,7 +60,6 @@ function onRowClick(row: any) {
                     <template #body="slotProps">
                         {{ slotProps.data.name }}
                     </template>
-
                 </Column>
                 <Column filed="guard_name" header="Guard Name">
                     <template #body="slotProps">
@@ -77,7 +76,9 @@ function onRowClick(row: any) {
 
                 <Column filed="edit">
                     <template #body="slotProps">
-                        <Button @click="" icon="i-heroicons-pencil-square" text />
+                        <Button
+                            @click="() => $router.push({ name: 'Roles-id', params: { id: slotProps.data.id }, query: { mode: 'edit' } })"
+                            icon="i-heroicons-pencil-square" text />
                     </template>
                 </Column>
                 <Column filed="remove">
