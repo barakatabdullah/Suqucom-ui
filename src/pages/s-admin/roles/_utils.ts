@@ -5,3 +5,9 @@ export async function getRoleById(id: number){
     return data
     
 }
+
+
+export async function deleteRole(id:number){
+    const {data}= await api.delete(`roles/${id}`)
+    return data
+}

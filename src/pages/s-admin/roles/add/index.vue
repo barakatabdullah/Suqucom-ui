@@ -13,21 +13,22 @@ import ToggleSwitch from 'primevue/toggleswitch';
 
 
 import { useToast } from 'primevue/usetoast';
-import { getRoleById } from './_utils';
 import { getAllPermissions } from '@/_utils';
+import { r } from 'node_modules/unplugin-vue-router/dist/options-ChnxZdan.mjs';
 
 
 const route = useRoute()
+const router = useRouter()
 const roleId = (route.params as { id: number }).id;
 
 
 
-const { data } = useQuery({
-    queryKey: ['role', roleId],
-    queryFn: () => getRoleById(roleId),
-    select: (data) => data.data,
+// const { data } = useQuery({
+//     queryKey: ['role', roleId],
+//     queryFn: () => getRoleById(roleId),
+//     select: (data) => data.data,
 
-})
+// })
 
 const { data: permissions } = useQuery({
     queryKey: ['permissions'],
@@ -51,47 +52,33 @@ const { defineField, handleSubmit, errors, resetForm, setValues } = useForm({
     validationSchema: UserSchema,
 })
 
-
+const allSelected = ref(false);
 
 
 
 const [name] = defineField('name');
 const [guard_name] = defineField('guard_name');
 const selectedPermissions = ref<boolean[]>([]);
-const allSelected = ref(false);
-
-
-
-
-
-
 
 
 watchEffect(() => {
-    if (data.value) {
-        setValues({
-            name: data.value.name,
-            guard_name: data.value.guard_name,
-       
-        });
-
-        if(permissions.value){
-            if(allSelected.value){
-                selectedPermissions.value = permissions.value.map((permission: any) => true)
-            }else{
-            selectedPermissions.value = permissions.value.map((permission: any) => data.value.permissions.some((p: any) => p.id === permission.id))
-            }
-        }
-       
-    }
+    if (allSelected.value) {
+        selectedPermissions.value = permissions.value.map(() => true)
+    } 
 })
+
+setValues({
+            guard_name: 'api',
+       
+        });   
+
 
 
 // Mutation
 const { mutateAsync } = useMutation({
     mutationFn: async (data: any) => {
         const res = await api
-            .post('roles/'+roleId, {
+            .post('roles/', {
                 name: data.name,
                 guard_name: data.guard_name,
                 permission_ids: permissions.value
@@ -102,9 +89,10 @@ const { mutateAsync } = useMutation({
             .then((res) => res.data)
         return res
     },
-    onSuccess: () => {
-        toast.add({ severity: 'info', summary: 'Success', detail: 'Role Updated successfully', life: 3000 });
+    onSuccess: (res) => {
+        toast.add({ severity: 'info', summary: 'Success', detail: 'Role Created successfully', life: 3000 });
         queryClient.invalidateQueries(['roles', 'role']);
+        router.push({ name: 'Roles-id',params: { id: res.data.id } })
     },
     onError: (error) => {
         toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
@@ -123,11 +111,11 @@ const onSubmit = handleSubmit((values) => {
         <Toast />
         <div class="w-full flex items-center justify-between">
             <div class="flex flex-col gap-2 items-start">
-                <h2 class="font-600 text-6 text-color">Edit Role</h2>
-                <p class="text-gray-600">You can View, Edit and Remove role</p>
+                <h2 class="font-600 text-6 text-color">Add Role</h2>
+                <p class="text-gray-600">You can View, Add role</p>
             </div>
         </div>
-        <form v-if="data" @submit="onSubmit" class="w-full h-full flex flex-col gap-6 overflow-hidden">
+        <form  @submit="onSubmit" class="w-full h-full flex flex-col gap-6 overflow-hidden">
             <div class="border rounded-4 w-full p-4 flex gap-6">
                 <div class="flex flex-col gap-1 w-full">
                     <label class="text-[#4b465c82] text-3.5 font-semibold" for="name">Name</label>
@@ -172,9 +160,13 @@ const onSubmit = handleSubmit((values) => {
     </div>
 </template>
 
+
+
+
 <route lang="yaml">
-    name: Roles-id
+    name: Roles-add
     meta:
       layout: admin
       requiresAuth: true
   </route>
+  

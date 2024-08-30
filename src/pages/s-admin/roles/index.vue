@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import moment from 'moment';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
+import { deleteRole } from './_utils';
 
 
 const router = useRouter()
@@ -23,18 +24,18 @@ function onRowClick(row: any) {
 
 }
 
-// const { mutateAsync:removeMutate } = useMutation({
-//     mutationFn: async (id:number) => {
-//         await deleteUser(id);
-//     },
-//     onSuccess: () => {
-//         toast.add({ severity: 'info', summary: 'Success', detail: 'User deleted successfully', life: 3000 });
-//         queryClient.invalidateQueries(['users']);
-//     },
-//     onError: (error) => {
-//         toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
-//     }
-// })
+const { mutateAsync:removeMutate } = useMutation({
+    mutationFn: async (id:number) => {
+        await deleteRole(id);
+    },
+    onSuccess: () => {
+        toast.add({ severity: 'info', summary: 'Success', detail: 'Role deleted successfully', life: 3000 });
+        queryClient.invalidateQueries(['roles']);
+    },
+    onError: (error) => {
+        toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
+    }
+})
 
 </script>
 
@@ -47,7 +48,7 @@ function onRowClick(row: any) {
                 <p class="text-gray-600">You can View, Add, Edit and Remove roles</p>
             </div>
 
-            <Button @click="" label="Add Role" />
+            <Button @click="()=>$router.push({name:'Roles-add'})" label="Add Role" />
         </div>
 
         <div class="h-full overflow-y-auto">
@@ -83,7 +84,7 @@ function onRowClick(row: any) {
                 </Column>
                 <Column filed="remove">
                     <template #body="slotProps">
-                        <Button @click="" icon="i-heroicons-trash" text severity="danger" />
+                        <Button @click="()=>removeMutate(slotProps.data.id)" icon="i-heroicons-trash" text severity="danger" />
                     </template>
                 </Column>
 
