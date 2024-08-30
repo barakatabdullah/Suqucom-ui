@@ -33,7 +33,7 @@ const { mutateAsync:removeMutate } = useMutation({
         queryClient.invalidateQueries(['roles']);
     },
     onError: (error) => {
-        toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
+        toast.add({ severity: 'error', summary: 'Error', detail: error.response?.data, life: 3000 });
     }
 })
 

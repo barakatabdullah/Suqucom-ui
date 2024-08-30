@@ -64,13 +64,13 @@ const selectedPermissions = ref<boolean[]>([]);
 watchEffect(() => {
     if (allSelected.value) {
         selectedPermissions.value = permissions.value.map(() => true)
-    } 
+    }
 })
 
 setValues({
-            guard_name: 'api',
-       
-        });   
+    guard_name: 'api',
+
+});
 
 
 
@@ -92,7 +92,7 @@ const { mutateAsync } = useMutation({
     onSuccess: (res) => {
         toast.add({ severity: 'info', summary: 'Success', detail: 'Role Created successfully', life: 3000 });
         queryClient.invalidateQueries(['roles', 'role']);
-        router.push({ name: 'Roles-id',params: { id: res.data.id } })
+        router.push({ name: 'Roles-id', params: { id: res.data.id } })
     },
     onError: (error) => {
         toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
@@ -115,7 +115,7 @@ const onSubmit = handleSubmit((values) => {
                 <p class="text-gray-600">You can View, Add role</p>
             </div>
         </div>
-        <form  @submit="onSubmit" class="w-full h-full flex flex-col gap-6 overflow-hidden">
+        <form @submit="onSubmit" class="w-full h-full flex flex-col gap-6 overflow-hidden">
             <div class="border rounded-4 w-full p-4 flex gap-6">
                 <div class="flex flex-col gap-1 w-full">
                     <label class="text-[#4b465c82] text-3.5 font-semibold" for="name">Name</label>
@@ -143,20 +143,18 @@ const onSubmit = handleSubmit((values) => {
                         <h4 class="font-600 text-5 text-color">Permissions</h4>
                     </div>
 
-                    <div v-for="(permission , index) in permissions" class="border p-4 rounded-4 flex gap-4 justify-between">
-                        
-                        <label class="flex items-center gap-2" :for="'permission'+index"><i class="i-hugeicons-stop" ></i> {{ permission.name }} </label>
-                        <ToggleSwitch :id="'permission'+index" v-model="selectedPermissions[index]" />
+                    <div v-for="(permission, index) in permissions"
+                        class="border p-4 rounded-4 flex gap-4 justify-between">
+
+                        <label class="flex items-center gap-2" :for="'permission' + index"><i
+                                class="i-hugeicons-stop"></i> {{ permission.name }} </label>
+                        <ToggleSwitch :id="'permission' + index" v-model="selectedPermissions[index]" />
                     </div>
 
                 </div>
             </div>
-            <Button
-                    label="Save"
-                    type="submit"
-                    
-                    />
-        </form> 
+            <Button label="Save" type="submit" />
+        </form>
     </div>
 </template>
 
@@ -169,4 +167,3 @@ const onSubmit = handleSubmit((values) => {
       layout: admin
       requiresAuth: true
   </route>
-  
