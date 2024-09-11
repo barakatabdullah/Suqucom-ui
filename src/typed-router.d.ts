@@ -22,6 +22,7 @@ declare module 'vue-router/auto-routes' {
     'Login': RouteRecordInfo<'Login', '/auth/login', Record<never, never>, Record<never, never>>,
     '/auth/register/': RouteRecordInfo<'/auth/register/', '/auth/register', Record<never, never>, Record<never, never>>,
     'Dashboard': RouteRecordInfo<'Dashboard', '/s-admin', Record<never, never>, Record<never, never>>,
+    'Categories': RouteRecordInfo<'Categories', '/s-admin/categories', Record<never, never>, Record<never, never>>,
     'Roles': RouteRecordInfo<'Roles', '/s-admin/roles', Record<never, never>, Record<never, never>>,
     'Roles-id': RouteRecordInfo<'Roles-id', '/s-admin/roles/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'Roles-add': RouteRecordInfo<'Roles-add', '/s-admin/roles/add', Record<never, never>, Record<never, never>>,

@@ -21,6 +21,11 @@ const navItems = [
         icon: 'i-hugeicons-mentoring',
         to: 'Roles' as const
     },
+    {
+        name: 'Categories',
+        icon: 'i-hugeicons-ellipse-selection',
+        to: 'Categories' as const
+    },
     // {
     //     name: 'Settings',
     //     icon: 'i-hugeicons-settings-01',
