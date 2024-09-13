@@ -1,30 +1,33 @@
 <script lang="ts" setup>
+
+import PanelMenu from 'primevue/panelmenu';
+
 const layoutStore = useLayoutStore();
-const navItems = [
+const navItems = ref([
     {
-        name: 'Home',
+        label: 'Home',
         icon: 'i-hugeicons-home-01',
-        to: 'Home' as const
+        route: 'Home' as const
     },
     {
-        name: 'Dashboard',
+        label: 'Dashboard',
         icon: 'i-hugeicons-dashboard-square-01',
-        to: 'Dashboard' as const
+        route: 'Dashboard' as const
     },
     {
-        name: 'Users',
+        label: 'Users',
         icon: 'i-hugeicons-user-multiple',
-        to: 'Users' as const
+        route: 'Users' as const
     },
     {
-        name: 'Roles',
+        label: 'Roles',
         icon: 'i-hugeicons-mentoring',
-        to: 'Roles' as const
+        route: 'Roles' as const
     },
     {
-        name: 'Categories',
+        label: 'Categories',
         icon: 'i-hugeicons-ellipse-selection',
-        to: 'Categories' as const
+        route: 'Categories' as const
     },
     // {
     //     name: 'Settings',
@@ -32,35 +35,37 @@ const navItems = [
     //     to: 'Settings' as const
     // }
 
-];
+])
 const route = useRoute();
 
 </script>
 
 
 <template>
-    <nav :class="['bg-[#F9FAFB] h-full rounded-6',
-        layoutStore.layout.isSidebarCollapsed ? 'w-26' : 'w-120'
+    <nav :class="['bg-[#F4F8FA] h-full rounded-6 flex flex-col gap-12 ',
+        layoutStore.layout.isSidebarCollapsed ? 'w-26 p-4 items-center' : 'w-120 p-6 items-start'
     ]">
-        <div class="w-full h-full p-6 flex flex-col gap-12 items-center">
-            <a class="w-full" href="/">
-                <img class="h-14"
-                    :src="layoutStore.layout.isSidebarCollapsed ? '/assets/logo/icon.svg' : '/assets/logo/logo-en.svg'"
-                    alt="logo">
-            </a>
+        <a class="w-full" href="/">
+            <img class="h-14"
+                :src="layoutStore.layout.isSidebarCollapsed ? '/assets/logo/icon.svg' : '/assets/logo/logo-en.svg'"
+                alt="logo">
+        </a>
+        <PanelMenu class="w-full" :pt="{
 
-            <div class="w-full flex flex-col gap-4 items-center">
-                <router-link v-for="item in navItems" :key="item.to"
+            panel: {
+                class: 'bg-transparent! border-none!'
+            }
+        }" :model="navItems">
+            <template #item="{ item }">
+                <router-link v-if="item.route"
                     v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.name } : null"
-                    :to="{ name: item.to }" :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
-                        { 'bg-[#E5E7EB]':   route.name.includes(item.to) }
+                    :to="{ name: item.route }" :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
+                        { 'bg-[#E5E7EB]': route.name.includes(item.route) }
                     ]">
                     <i :class="[item.icon, 'text-5']"></i>
-                    <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.name }}</span>
+                    <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
                 </router-link>
-            </div>
-        </div>
-
-
+            </template>
+        </PanelMenu>
     </nav>
 </template>

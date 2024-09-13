@@ -6,7 +6,7 @@ export const useLayoutStore = defineStore('LayoutStore', {
   state: () => {
     return {
       layout: {
-        isSidebarCollapsed: true,
+        isSidebarCollapsed: false,
       }
     }
   },
