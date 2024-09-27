@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
-import { getCategories } from './_utils/categories';
+import { getCategories } from './_utils/products';
 import moment from 'moment';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
@@ -43,11 +43,11 @@ function onRowClick(row: any) {
     <Toast />
     <div class="w-full flex items-center justify-between">
       <div class="flex flex-col gap-2 items-start">
-        <h2 class="font-600 text-6 text-color">Categories</h2>
-        <p class="text-gray-600">You can View, Add, Edit and Remove categories</p>
+        <h2 class="font-600 text-6 text-color">Products</h2>
+        <p class="text-gray-600">You can View, Add, Edit and Remove products</p>
       </div>
 
-      <Button @click="() => $router.push({ name: 'Categories-add' })" label="Add Category" />
+      <Button @click="() => $router.push({ name: 'Products-add' })" label="Add Product" />
     </div>
 
     <div class="h-full overflow-y-auto">
@@ -114,7 +114,7 @@ function onRowClick(row: any) {
 
 
 <route lang="yaml">
-  name: Categories
+  name: Products
   meta:
     layout: admin
     requiresAuth: true
