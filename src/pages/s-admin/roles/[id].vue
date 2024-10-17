@@ -14,7 +14,7 @@ import ToggleSwitch from 'primevue/toggleswitch';
 
 import { useToast } from 'primevue/usetoast';
 import { getRoleById } from './_utils';
-import { getAllPermissions } from '@/_utils';
+import { getAllPermissions } from '@/utils/functions';
 
 
 const route = useRoute()

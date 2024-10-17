@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { getUser } from '@/_utils';
+import { getUser } from '@/utils/functions';
 import moment from 'moment';
 import { getUserbyId } from './_utils/users';
 import { useQueryClient, useMutation, useQuery } from '@tanstack/vue-query';
 import * as zod from 'zod'
-import { getAllPermissions, getAllRoles } from '../../../_utils';
+import { getAllPermissions, getAllRoles } from '@/utils/functions';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 

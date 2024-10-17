@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { getAllRoles } from '@/_utils';
+import { getAllRoles } from '@/utils/functions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
 import moment from 'moment';
 import Toast from 'primevue/toast';

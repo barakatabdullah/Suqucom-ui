@@ -10,9 +10,29 @@ import { router } from './router'
 import { ThemePreset } from './config/theme';
 import Tooltip from 'primevue/tooltip';
 import ToastService from 'primevue/toastservice';
+import { createI18n } from 'vue-i18n'
+
+
+import { en } from './locales/en'
+import { ar } from './locales/ar'
+
+
+export const i18n = createI18n({
+    legacy: false,
+    locale: '',
+    fallbackLocale: 'en',
+
+    messages: {
+        en:en,
+        ar:ar
+    },
+  })
+
 
 const pinia = createPinia()
 const app = createApp(App)
+
+app.use(i18n)
 
 app.use(pinia)
 app.use(router)

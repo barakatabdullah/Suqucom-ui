@@ -13,8 +13,8 @@ import ToggleSwitch from 'primevue/toggleswitch';
 
 
 import { useToast } from 'primevue/usetoast';
-import { getAllPermissions } from '@/_utils';
-import { r } from 'node_modules/unplugin-vue-router/dist/options-ChnxZdan.mjs';
+import { getAllPermissions } from '@/utils/functions';
+
 
 
 const route = useRoute()
