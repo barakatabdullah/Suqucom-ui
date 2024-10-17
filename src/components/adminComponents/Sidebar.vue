@@ -30,7 +30,6 @@ const navItems = ref<NavItem[]>([
     {
         label: 'Products',
         icon: 'i-hugeicons-package-open',
-        // route: 'Products' as const
         items: [
             {
                 label: 'All Products',
@@ -46,7 +45,7 @@ const navItems = ref<NavItem[]>([
             {
                 label: 'Attributes',
                 icon: 'i-hugeicons-layers-02',
-                // route: 'Roles' as const
+                route: 'Attributes' as const
             },
 
         ]
@@ -54,26 +53,52 @@ const navItems = ref<NavItem[]>([
     {
         label: 'Brands',
         icon: 'i-hugeicons-shopping-bag-02',
-        // route: 'Roles' as const
+        route: 'Brands' as const
     },
     {
         label: 'Sales',
         icon: 'i-hugeicons-chart-increase',
-        // route: 'Roles' as const
+        items: [
+            {
+                label: 'Orders',
+                icon: 'i-hugeicons-shopping-cart-01',
+                route: 'Orders' as const
+            },
+        ]
     },
     {
         label: 'Reviews',
         icon: 'i-hugeicons-star-square',
-        // route: 'Roles' as const
+        items: [
+            {
+                label: 'Product Reviews',
+                icon: 'i-hugeicons-star-square',
+                route: 'Products-reviews' as const
+            },
+            // {
+            //     label: 'Shop Reviews',
+            //     icon: 'i-hugeicons-star-square',
+            //     route: 'ShopReviews' as const
+            // },
+        ]
     },
     {
         label: 'Reports',
         icon: 'i-hugeicons-chart-histogram',
-        // route: 'Roles' as const
+        route: 'Reports' as const
     },
     {
         label: 'Settings',
         icon: 'i-hugeicons-settings-01',
+        items:[
+            {
+                label: 'General',
+                icon: 'i-hugeicons-settings-01',
+                route: 'General-settings' as const
+            },
+
+        ]
+
     }
 
 ])
@@ -105,13 +130,13 @@ const route = useRoute();
                     <router-link v-if="item.route"
                         v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.label } : null"
                         :to="{ name: item.route }" :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
-                            { 'bg-[#E5E7EB]': route.name.includes(item.route) }
+                            { 'bg-[#E5E7EB]': route.name === item.route }
                         ]">
                         <i :class="[item.icon, 'text-5']"></i>
                         <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
                     </router-link>
                     <div v-else :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
-                        { 'bg-[#E5E7EB]': item.items && item.items.some((child: NavItem) => route.name.includes(child.route as string)) }
+                        { 'bg-[#E5E7EB]': item.items && item.items.some((child: NavItem) => route.name === child.route) }
                     ]" v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.label } : null">
                         <i :class="[item.icon, 'text-5']"></i>
                         <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
