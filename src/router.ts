@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { setupLayouts } from 'virtual:generated-layouts'
 
+import { routes } from 'vue-router/auto-routes'
+
 export const router = createRouter({
   history: createWebHistory(),
-  extendRoutes: (routes: any) => setupLayouts(routes)
+  routes: setupLayouts(routes)
 })
 
 router.beforeEach((to, from, next) => {

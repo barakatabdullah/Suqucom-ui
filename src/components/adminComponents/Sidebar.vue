@@ -90,7 +90,7 @@ const navItems = ref<NavItem[]>([
     {
         label: 'Settings',
         icon: 'i-hugeicons-settings-01',
-        items:[
+        items: [
             {
                 label: 'General',
                 icon: 'i-hugeicons-settings-01',
@@ -136,7 +136,7 @@ const route = useRoute();
                         <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
                     </router-link>
                     <div v-else :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
-                        { 'bg-[#E5E7EB]': item.items && item.items.some((child: NavItem) => route.name === child.route) }
+                        { 'bg-[#E5E7EB]': item.items && (item.items as NavItem[]).some((child: NavItem) => route.name === child.route) }
                     ]" v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.label } : null">
                         <i :class="[item.icon, 'text-5']"></i>
                         <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
