@@ -2,13 +2,15 @@
 
 import PanelMenu from 'primevue/panelmenu';
 
+interface NavItem {
+    label: string;
+    icon: string;
+    route?: string;
+    items?: NavItem[];
+}
+
 const layoutStore = useLayoutStore();
-const navItems = ref([
-    {
-        label: 'Home',
-        icon: 'i-hugeicons-home-01',
-        route: 'Home' as const
-    },
+const navItems = ref<NavItem[]>([
     {
         label: 'Dashboard',
         icon: 'i-hugeicons-dashboard-square-01',
@@ -109,7 +111,7 @@ const route = useRoute();
                         <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
                     </router-link>
                     <div v-else :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
-                        { 'bg-[#E5E7EB]': route.name.includes(item.route) }
+                        { 'bg-[#E5E7EB]': item.items && item.items.some((child: NavItem) => route.name.includes(child.route as string)) }
                     ]" v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.label } : null">
                         <i :class="[item.icon, 'text-5']"></i>
                         <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
