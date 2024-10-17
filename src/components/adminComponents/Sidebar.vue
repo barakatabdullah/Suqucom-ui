@@ -41,14 +41,38 @@ const navItems = ref([
                 icon: 'i-hugeicons-ellipse-selection',
                 route: 'Categories' as const
             },
+            {
+                label: 'Attributes',
+                icon: 'i-hugeicons-layers-02',
+                // route: 'Roles' as const
+            },
 
         ]
     },
-    // {
-    //     name: 'Settings',
-    //     icon: 'i-hugeicons-settings-01',
-    //     to: 'Settings' as const
-    // }
+    {
+        label: 'Brands',
+        icon: 'i-hugeicons-shopping-bag-02',
+        // route: 'Roles' as const
+    },
+    {
+        label: 'Sales',
+        icon: 'i-hugeicons-chart-increase',
+        // route: 'Roles' as const
+    },
+    {
+        label: 'Reviews',
+        icon: 'i-hugeicons-star-square',
+        // route: 'Roles' as const
+    },
+    {
+        label: 'Reports',
+        icon: 'i-hugeicons-chart-histogram',
+        // route: 'Roles' as const
+    },
+    {
+        label: 'Settings',
+        icon: 'i-hugeicons-settings-01',
+    }
 
 ])
 const route = useRoute();
@@ -57,40 +81,65 @@ const route = useRoute();
 
 
 <template>
-    <nav :class="['bg-[#F4F8FA] h-full rounded-6 flex flex-col gap-12 ',
-        layoutStore.layout.isSidebarCollapsed ? 'w-26 p-4 items-center' : 'w-90 p-6 items-start'
+    <nav :class="['bg-[#F4F8FA] h-full rounded-6 flex flex-col gap-10 overflow-hidden',
+        layoutStore.layout.isSidebarCollapsed ? 'w-26 items-center' : 'w-90 items-start'
     ]">
-        <a class="w-full" href="/">
+        <a class="w-full p-6 " href="/">
             <img class="h-14"
                 :src="layoutStore.layout.isSidebarCollapsed ? '/assets/logo/icon.svg' : '/assets/logo/logo-en.svg'"
                 alt="logo">
         </a>
-        <PanelMenu class="w-full" :pt="{
+        <div class='overflow-y-auto h-full w-full px-4'>
+            <PanelMenu class="w-full" :pt="{
 
-            panel: {
-                class: 'bg-transparent! border-none!'
-            },
-            rootList: {
-                class: 'px-0! pt-2! flex! flex-col! gap-2!'
-            },
-        }" :model="navItems">
-            <template #item="{ item }">
-                <router-link v-if="item.route"
-                    v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.name } : null"
-                    :to="{ name: item.route }" :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
+                panel: {
+                    class: 'bg-transparent! border-none!'
+                },
+                rootList: {
+                    class: 'px-0! pt-2! flex! flex-col! gap-2!'
+                },
+            }" :model="navItems">
+                <template #item="{ item }">
+                    <router-link v-if="item.route"
+                        v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.label } : null"
+                        :to="{ name: item.route }" :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
+                            { 'bg-[#E5E7EB]': route.name.includes(item.route) }
+                        ]">
+                        <i :class="[item.icon, 'text-5']"></i>
+                        <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
+                    </router-link>
+                    <div v-else :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
                         { 'bg-[#E5E7EB]': route.name.includes(item.route) }
-                    ]">
-                    <i :class="[item.icon, 'text-5']"></i>
-                    <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
-                </router-link>
-                <div v-else :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
-                    { 'bg-[#E5E7EB]': route.name.includes(item.route) }
-                ]">
-                    <i :class="[item.icon, 'text-5']"></i>
-                    <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
-                    <i v-if="!layoutStore.layout.isSidebarCollapsed" class="i-hugeicons-arrow-down-01 ms-auto"></i>
-                </div>
-            </template>
-        </PanelMenu>
+                    ]" v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.label } : null">
+                        <i :class="[item.icon, 'text-5']"></i>
+                        <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
+                        <i v-if="!layoutStore.layout.isSidebarCollapsed" class="i-hugeicons-arrow-down-01 ms-auto"></i>
+                    </div>
+                </template>
+            </PanelMenu>
+        </div>
     </nav>
 </template>
+
+
+<style scoped>
+/* width */
+::-webkit-scrollbar {
+    width: 0.25rem;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #88888856;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #55555571;
+}
+</style>
