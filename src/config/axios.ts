@@ -18,6 +18,9 @@ api.interceptors.request.use((config) => {
     ...config.headers, // Allow overriding existing headers
   } as AxiosRequestHeaders;
 
+  config.headers['Accept-Language'] = 'en';
+
+
   return config;
 });
 

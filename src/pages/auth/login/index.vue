@@ -5,8 +5,12 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useMutation } from '@tanstack/vue-query'
 import api from '@/config/axios'
 import { router } from '@/router'
+import Toast from 'primevue/toast';
+import { useToast } from 'primevue/usetoast';
 
 const userStore = useUserStore()
+const toast = useToast();
+
 const LoginSchema = toTypedSchema(
   zod.object({
     email: zod.string().email({ message: 'Invalid Email' }),
@@ -33,13 +37,16 @@ const { mutateAsync } = useMutation({
     return res
   },
   onSuccess: (data) => {
-    userStore.user.name= data.data.user.fname + ' ' + data.data.user.lname
+    userStore.user.name = data.data.user.fname + ' ' + data.data.user.lname
     userStore.user.token = data.data.token
-    
-    localStorage.setItem('user',data.data.user.fname + ' ' + data.data.user.lname)
-    localStorage.setItem('token',data.data.token)
+
+    localStorage.setItem('user', data.data.user.fname + ' ' + data.data.user.lname)
+    localStorage.setItem('token', data.data.token)
 
     router.push({ name: 'Home' })
+  },
+  onError: (error) => {
+    toast.add({ severity: 'error', summary: 'Error', detail: error.response?.data.error, life: 3000 });
   }
 })
 
@@ -50,6 +57,7 @@ const onSubmit = handleSubmit((values) => {
 </script>
 
 <template>
+  <Toast />
   <div class="flex items-center justify-center col-span-4 h-full">
     <form @submit="onSubmit" class="w-full px-28">
       <div class="flex flex-col gap-8">
@@ -61,26 +69,16 @@ const onSubmit = handleSubmit((values) => {
 
           <div class="flex flex-col gap-1">
             <label class="font-semibold text-[#4b465c82] text-3.5" for="password">Password</label>
-            <Password
-              id="password"
-              v-model="password"
-              :feedback="false"
-              :pt="{
-                pcinput: {
-                  root: {
-                    class: 'w-full'
-                  }
+            <Password id="password" v-model="password" :feedback="false" :pt="{
+              pcinputtext: {
+                root: {
+                  class: 'w-full'
                 }
-              }"
-              :invalid="errors.password"
-            />
+              }
+            }" :invalid="!!errors.password" />
           </div>
 
-          <Button
-          type="submit"
-          label="Login"
-          
-          />
+          <Button type="submit" label="Login" />
         </div>
       </div>
     </form>

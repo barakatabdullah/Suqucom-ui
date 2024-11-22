@@ -15,11 +15,10 @@ const queryClient = useQueryClient();
 const { data } = useQuery({
   queryKey: ['categories'],
   queryFn: getCategories,
-  select: (data) => data.data
 })
 
 function onRowClick(row: any) {
-  router.push({ name: 'Users-id', params: { id: row.data.id } })
+  // router.push({ name: 'Users-id', params: { id: row.data.id } })
 
 }
 
@@ -86,6 +85,12 @@ function onRowClick(row: any) {
         <Column filed="created_at" header="Created at">
           <template #body="slotProps">
             {{ moment(slotProps.data.created_at).format("MMM Do YY") }}
+          </template>
+        </Column>
+
+        <Column filed="image" header="Image">
+          <template #body="slotProps">
+            <img :src="slotProps.data.image" alt="" class="w-12 h-12 rounded-full" />
           </template>
         </Column>
 

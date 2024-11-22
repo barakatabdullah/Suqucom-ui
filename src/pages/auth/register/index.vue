@@ -49,7 +49,7 @@ const [city] = defineField("city");
 
 // Mutation
 const { mutateAsync } = useMutation({
-  mutationFn: async (data:any) => {
+  mutationFn: async (data: any) => {
     const res = await api
       .post('register', {
         email: data.email,
@@ -65,7 +65,7 @@ const { mutateAsync } = useMutation({
   },
   onSuccess: (data) => {
 
-    console.log('data',data)
+    console.log('data', data)
   }
 })
 
@@ -88,41 +88,23 @@ const activeStep = ref(1);
         <StepList>
           <div class="flex items-center gap-4 mx-auto mb-10">
             <Step v-slot="{ activateCallback, value, a11yAttrs }" asChild :value="1">
-              <div
-                class="flex flex-row flex-auto items-center gap-2"
-                v-bind="a11yAttrs.root"
-              >
-                <Button
-                  :outlined="value !== activeStep"
-                  icon="i-tabler-home"
-                  @click="activateCallback"
-                  v-bind="a11yAttrs.header"
-                />
+              <div class="flex flex-row flex-auto items-center gap-2" v-bind="a11yAttrs.root">
+                <Button :outlined="value !== activeStep" icon="i-tabler-home" @click="activateCallback"
+                  v-bind="a11yAttrs.header" />
                 <div class="flex flex-col">
                   <span class="font-semibold text-[#4b465cd9]">Account</span>
-                  <span class="font-semibold text-sm text-[#4b465c82]"
-                    >Account Details</span
-                  >
+                  <span class="font-semibold text-sm text-[#4b465c82]">Account Details</span>
                 </div>
                 <i class="i-tabler-chevron-right text-[#4b465c82] mx-8"></i>
               </div>
             </Step>
             <Step v-slot="{ activateCallback, value, a11yAttrs }" asChild :value="2">
-              <div
-                class="flex flex-row flex-auto items-center gap-2"
-                v-bind="a11yAttrs.root"
-              >
-                <Button
-                  :outlined="value !== activeStep"
-                  icon="i-tabler-user"
-                  @click="activateCallback"
-                  v-bind="a11yAttrs.header"
-                />
+              <div class="flex flex-row flex-auto items-center gap-2" v-bind="a11yAttrs.root">
+                <Button :outlined="value !== activeStep" icon="i-tabler-user" @click="activateCallback"
+                  v-bind="a11yAttrs.header" />
                 <div class="flex flex-col">
                   <span class="font-semibold text-[#4b465cd9]">Personal</span>
-                  <span class="font-semibold text-sm text-[#4b465c82]"
-                    >Personal Details</span
-                  >
+                  <span class="font-semibold text-sm text-[#4b465c82]">Personal Details</span>
                 </div>
               </div>
             </Step>
@@ -132,12 +114,8 @@ const activeStep = ref(1);
           <StepPanel v-slot="{ activateCallback }" :value="1">
             <div class="flex flex-col gap-8">
               <div class="flex flex-col">
-                <span class="font-semibold text-[#4b465cd9] text-7.5"
-                  >Account Information</span
-                >
-                <span class="font-semibold text-[#4b465c82]"
-                  >Enter Your Account Details</span
-                >
+                <span class="font-semibold text-[#4b465cd9] text-7.5">Account Information</span>
+                <span class="font-semibold text-[#4b465c82]">Enter Your Account Details</span>
               </div>
               <div class="grid grid-cols-1 gap-4">
                 <!-- <div class="flex flex-col gap-1">
@@ -152,73 +130,49 @@ const activeStep = ref(1);
                 </div> -->
 
                 <div class=" flex flex-col gap-1">
-                  <label class="text-[#4b465c82] text-3.5 font-semibold" for="email"
-                    >Email</label
-                  >
-                <InputText id="email" v-model="email" :class="{ 'p-invalid': errors.email }" />
+                  <label class="text-[#4b465c82] text-3.5 font-semibold" for="email">Email</label>
+                  <InputText id="email" v-model="email" :class="{ 'p-invalid': errors.email }" />
                 </div>
 
                 <div class="flex flex-col gap-1">
-                  <label class="font-semibold text-[#4b465c82] text-3.5" for="password"
-                    >Password</label
-                  >
-                <Password
-                  id="password"
-                  v-model="password"
-                  :pt="{
-                    pcinput: {
+                  <label class="font-semibold text-[#4b465c82] text-3.5" for="password">Password</label>
+                  <Password id="password" v-model="password" :pt="{
+                    pcinputtext: {
                       root: {
-                        class: 'w-full',
-                      },
-                    },
-                  }"
-                  :invalid="errors.password"
-                />
+                        class: 'w-full'
+                      }
+                    }
+                  }" :invalid="!!errors.password" />
                 </div>
 
 
                 <div class="flex flex-col gap-1">
-                  <label class="font-semibold text-[#4b465c82] text-3.5" for="passwordConfirmation"
-                    >Password Confirmation</label
-                  >
-                <Password
-                id="passwordConfirmation"
-                  v-model="passwordConfirmation"
-                  :invalid="errors.passwordConfirmation"
-                  :pt="{
-                    pcinput: {
-                      root: {
-                        class: 'w-full',
-                      },
-                    },
-                  }"
-                  :feedback="false"
-                />
+                  <label class="font-semibold text-[#4b465c82] text-3.5" for="passwordConfirmation">Password
+                    Confirmation</label>
+                  <Password id="passwordConfirmation" v-model="passwordConfirmation"
+                    :invalid="!!errors.passwordConfirmation" :pt="{
+                      pcinputtext: {
+                        root: {
+                          class: 'w-full'
+                        }
+                      }
+                    }" :feedback="false" />
                 </div>
               </div>
               <div class="flex pt-6 justify-end">
-                <Button
-                  label="Next"
-                  icon="i-tabler-arrow-right"
-                  iconPos="right"
-                  @click="activateCallback(2)"
-                />
+                <Button label="Next" icon="i-tabler-arrow-right" iconPos="right" @click="activateCallback(2)" />
               </div>
             </div>
           </StepPanel>
           <StepPanel v-slot="{ activateCallback }" :value="2">
             <div class="flex flex-col gap-8">
               <div class="flex flex-col">
-                <span class="font-semibold text-[#4b465cd9] text-7.5"
-                  >Personal Information</span
-                >
-                <span class="font-semibold text-[#4b465c82]"
-                  >Enter Your Personal Details</span
-                >
+                <span class="font-semibold text-[#4b465cd9] text-7.5">Personal Information</span>
+                <span class="font-semibold text-[#4b465c82]">Enter Your Personal Details</span>
               </div>
               <div class="grid grid-cols-2 gap-4">
 
-              
+
                 <div class="flex flex-col gap-1">
                   <label class="font-semibold text-[#4b465c82] text-3.5" for="fname">First Name</label>
                   <InputText id="fname" v-model="fname" :class="{ 'p-invalid': errors.fname }" />
@@ -253,13 +207,8 @@ const activeStep = ref(1);
                 </div> -->
               </div>
               <div class="flex pt-6 justify-between">
-                <Button
-                  outlined
-                  label="Previous"
-                  icon="i-tabler-arrow-left"
-                  iconPos="left"
-                  @click="activateCallback(1)"
-                />
+                <Button outlined label="Previous" icon="i-tabler-arrow-left" iconPos="left"
+                  @click="activateCallback(1)" />
                 <Button type="submit" label="Submit" />
               </div>
             </div>

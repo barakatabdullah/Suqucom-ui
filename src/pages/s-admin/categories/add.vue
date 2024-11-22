@@ -6,6 +6,10 @@ import { useToast } from 'primevue/usetoast';
 import { useForm } from 'vee-validate';
 import Select from 'primevue/select';
 import InputNumber from 'primevue/inputnumber';
+import { useMutation, useQuery } from '@tanstack/vue-query';
+import { getCategories } from './_utils/categories';
+import api from '@/config/axios';
+import { router } from '@/router';
 
 
 const UserSchema = toTypedSchema(
@@ -29,8 +33,8 @@ const [name] = defineField('name');
 const [slug] = defineField('slug');
 const [parent_id] = defineField('parent_id');
 const [order] = defineField('order');
-const [published] = defineField('published');
-const [active] = defineField('active');
+// const [published] = defineField('published');
+// const [active] = defineField('active');
 const fileupload = ref();
 
 
@@ -44,6 +48,55 @@ watchEffect(() => {
 
 const toast = useToast();
 
+const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+});
+
+
+// Mutation
+const { mutateAsync } = useMutation({
+    mutationFn: async (data: any) => {
+        const res = await api
+            .post('categories', {
+                name: data.name,
+                slug: data.slug,
+                parent_id: data.parent_id,
+                order: data.order,
+                image: fileupload.value.files[0]
+                // published: data.published,
+                // active: data.active,
+                // icon: data.icon
+            }, {
+                headers: {
+                    'content-type': 'multipart/form-data'
+                }
+            })
+            .then((res) => res.data)
+        return res
+    },
+    onSuccess: (res) => {
+        console.log(res)
+        resetForm()
+        fileupload.value.clear()
+        toast.add({ severity: 'info', summary: 'Success', detail: 'Category added successfully', life: 3000 });
+        router.push({ name: 'Categories' })
+
+    },
+    onError: (error) => {
+        toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
+    }
+})
+
+const onSubmit = handleSubmit((values) => {
+    mutateAsync(values)
+})
+
+function check(){
+    console.log(fileupload.value.files[0])
+}
+
+
 </script>
 
 
@@ -56,7 +109,7 @@ const toast = useToast();
                 <p class="text-gray-600">You can Add a new Category</p>
             </div>
         </div>
-        <form class="w-full h-full flex flex-col gap-6 overflow-hidden">
+        <form @submit="onSubmit" class="w-full h-full flex flex-col gap-6 overflow-hidden">
 
             <div class="grid grid-cols-2 gap-6">
                 <div class="flex flex-col gap-1">
@@ -71,7 +124,7 @@ const toast = useToast();
                 </div>
                 <div class="flex flex-col gap-1">
                     <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">Parent Category</label>
-                    <Select v-model="parent_id" :class="{ 'p-invalid': errors.parent_id }" />
+                    <Select v-model="parent_id" :options="categories" optionLabel="name" optionValue="id":class="{ 'p-invalid': errors.parent_id }" />
                     <span v-if="errors.parent_id" class="text-red-500">{{ errors.parent_id }}</span>
                 </div>
                 <div class="flex flex-col gap-1">
@@ -81,10 +134,10 @@ const toast = useToast();
                 </div>
                 <div class="flex flex-col gap-1 col-span-2">
                     <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">Category Image</label>
-                    <FileUpload ref="fileupload" name="demo[]" accept="image/*" :maxFileSize="1000000" customUpload :class="{ 'p-invalid': errors.parent_id }" />
+                    <FileUpload ref="fileupload" :fileLimit="1" name="demo[]" accept="image/*" :maxFileSize="1000000" customUpload :class="{ 'p-invalid': errors.parent_id }" />
                     <span v-if="errors.parent_id" class="text-red-500">{{ errors.parent_id }}</span>
                 </div>
-                <div class="flex gap-6 items-center">
+                <!-- <div class="flex gap-6 items-center">
                     <div class="flex flex-col gap-1">
                         <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">Published</label>
                         <InputSwitch v-model="published" :class="{ 'p-invalid': errors.published }" />
@@ -95,7 +148,11 @@ const toast = useToast();
                         <InputSwitch v-model="active" :class="{ 'p-invalid': errors.active }" />
                         <span v-if="errors.active" class="text-red-500">{{ errors.active }}</span>
                     </div>
+                </div> -->
+                <div class="w-full flex justify-end col-span-2">
+                    <Button class="w-fit" label="Submit" type="submit"></Button>
                 </div>
+                <Button @click="check"></Button>
             </div>
         </form>
 
