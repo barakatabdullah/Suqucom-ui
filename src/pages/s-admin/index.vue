@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { toggleColorScheme,setI18nLanguage } from '@/utils/functions'
 import Select from 'primevue/select';
-const layoutStore = useLayoutStore();
+const settingsStore = useSettingsStore();
 
 
 
@@ -14,7 +14,7 @@ const layoutStore = useLayoutStore();
     <Button
     label="Toggle"
 
-    @click="layoutStore.toggleSidebar"
+    @click="settingsStore.toggleSidebar"
     />
 
     <h4>{{ $t('hello') }}</h4>

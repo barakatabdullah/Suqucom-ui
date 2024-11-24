@@ -9,7 +9,7 @@ interface NavItem {
     items?: NavItem[];
 }
 
-const layoutStore = useLayoutStore();
+const settingsStore = useSettingsStore();
 const navItems = ref<NavItem[]>([
     {
         label: 'Dashboard',
@@ -109,11 +109,11 @@ const route = useRoute();
 
 <template>
     <nav :class="['bg-[#F4F8FA] h-full rounded-6 flex flex-col gap-10 overflow-hidden',
-        layoutStore.layout.isSidebarCollapsed ? 'w-26 items-center' : 'w-90 items-start'
+        settingsStore.settings.isSidebarCollapsed ? 'w-26 items-center' : 'w-90 items-start'
     ]">
         <a class="w-full p-6 " href="/">
             <img class="h-14"
-                :src="layoutStore.layout.isSidebarCollapsed ? '/assets/logo/icon.svg' : '/assets/logo/logo-en.svg'"
+                :src="settingsStore.settings.isSidebarCollapsed ? '/assets/logo/icon.svg' : '/assets/logo/logo-en.svg'"
                 alt="logo">
         </a>
         <div class='overflow-y-auto h-full w-full px-4'>
@@ -128,19 +128,19 @@ const route = useRoute();
             }" :model="navItems">
                 <template #item="{ item }">
                     <router-link v-if="item.route"
-                        v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.label } : null"
+                        v-tooltip.right="settingsStore.settings.isSidebarCollapsed ? { value: item.label } : null"
                         :to="{ name: item.route }" :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
                             { 'bg-[#E5E7EB]': route.name === item.route }
                         ]">
                         <i :class="[item.icon, 'text-5']"></i>
-                        <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
+                        <span v-if="!settingsStore.settings.isSidebarCollapsed">{{ item.label }}</span>
                     </router-link>
                     <div v-else :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
                         { 'bg-[#E5E7EB]': item.items && (item.items as NavItem[]).some((child: NavItem) => route.name === child.route) }
-                    ]" v-tooltip.right="layoutStore.layout.isSidebarCollapsed ? { value: item.label } : null">
+                    ]" v-tooltip.right="settingsStore.settings.isSidebarCollapsed ? { value: item.label } : null">
                         <i :class="[item.icon, 'text-5']"></i>
-                        <span v-if="!layoutStore.layout.isSidebarCollapsed">{{ item.label }}</span>
-                        <i v-if="!layoutStore.layout.isSidebarCollapsed" class="i-hugeicons-arrow-down-01 ms-auto"></i>
+                        <span v-if="!settingsStore.settings.isSidebarCollapsed">{{ item.label }}</span>
+                        <i v-if="!settingsStore.settings.isSidebarCollapsed" class="i-hugeicons-arrow-down-01 ms-auto"></i>
                     </div>
                 </template>
             </PanelMenu>

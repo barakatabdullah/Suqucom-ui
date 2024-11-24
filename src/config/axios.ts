@@ -8,6 +8,7 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use((config) => {
   const userStore = useUserStore();
+  const settingsStore = useSettingsStore();
   // Set the base URL
   config.baseURL = '/api';
 
@@ -18,7 +19,7 @@ api.interceptors.request.use((config) => {
     ...config.headers, // Allow overriding existing headers
   } as AxiosRequestHeaders;
 
-  config.headers['Accept-Language'] = 'en';
+  config.headers['Accept-Language'] = settingsStore.settings.lang;
 
 
   return config;

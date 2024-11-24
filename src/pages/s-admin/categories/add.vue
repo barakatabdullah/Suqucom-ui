@@ -10,11 +10,17 @@ import { useMutation, useQuery } from '@tanstack/vue-query';
 import { getCategories } from './_utils/categories';
 import api from '@/config/axios';
 import { router } from '@/router';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n()
+
+
 
 
 const UserSchema = toTypedSchema(
     zod.object({
-        name: zod.string().min(3).max(255),
+        nameEn: zod.string().min(3).max(255).regex(/^[A-Za-z0-9\s\-\_\.]+$/, t('must_be_english')),
+        nameAr: zod.string().min(3).max(255).regex(/^[\u0600-\u06FF\s0-9\-\_\.]+$/, t('must_be_arabic')),
         slug: zod.string().min(3).max(255),
         parent_id: zod.number().optional(),
         order: zod.number().optional().nullable(),
@@ -29,7 +35,8 @@ const { defineField, handleSubmit, errors, resetForm } = useForm({
     validationSchema: UserSchema
 })
 
-const [name] = defineField('name');
+const [nameEn] = defineField('nameEn');
+const [nameAr] = defineField('nameAr');
 const [slug] = defineField('slug');
 const [parent_id] = defineField('parent_id');
 const [order] = defineField('order');
@@ -37,11 +44,16 @@ const [order] = defineField('order');
 // const [active] = defineField('active');
 const fileupload = ref();
 
+const arabicToEnglishMap: { [key: string]: string } = {
+            'ا': 'a', 'ب': 'b', 'ت': 't', 'ث': 'th', 'ج': 'j', 'ح': 'h', 'خ': 'kh', 'د': 'd', 'ذ': 'dh', 'ر': 'r', 'ز': 'z', 'س': 's', 'ش': 'sh', 'ص': 's', 'ض': 'd', 'ط': 't', 'ظ': 'z', 'ع': 'a', 'غ': 'gh', 'ف': 'f', 'ق': 'q', 'ك': 'k', 'ل': 'l', 'م': 'm', 'ن': 'n', 'ه': 'h', 'و': 'w', 'ي': 'y'
+        };
 
 
 watchEffect(() => {
-    if (name.value) {
-        slug.value = name.value.toLowerCase().replace(/ /g, '-');
+    if (nameEn.value) {
+
+
+        slug.value = nameEn.value.toLowerCase().replace(/ /g, '-').replace(/[^\u0000-\u007F]/g, (char) => arabicToEnglishMap[char] || char);
     }
 })
 
@@ -57,9 +69,11 @@ const { data: categories } = useQuery({
 // Mutation
 const { mutateAsync } = useMutation({
     mutationFn: async (data: any) => {
+        console.log(data)
         const res = await api
             .post('categories', {
-                name: data.name,
+                name_en: data.nameEn,
+                name_ar: data.nameAr,
                 slug: data.slug,
                 parent_id: data.parent_id,
                 order: data.order,
@@ -84,6 +98,7 @@ const { mutateAsync } = useMutation({
 
     },
     onError: (error) => {
+        
         toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
     }
 })
@@ -92,9 +107,6 @@ const onSubmit = handleSubmit((values) => {
     mutateAsync(values)
 })
 
-function check(){
-    console.log(fileupload.value.files[0])
-}
 
 
 </script>
@@ -105,35 +117,40 @@ function check(){
         <Toast />
         <div class="w-full flex items-center justify-between">
             <div class="flex flex-col gap-2 items-start">
-                <h2 class="font-600 text-6 text-color">Add Category</h2>
-                <p class="text-gray-600">You can Add a new Category</p>
+                <h2 class="font-600 text-6 text-color">{{$t('category.add')}}</h2>
+                <p class="text-gray-600">{{$t('category.add_sub_title')}}</p>
             </div>
         </div>
         <form @submit="onSubmit" class="w-full h-full flex flex-col gap-6 overflow-hidden">
 
             <div class="grid grid-cols-2 gap-6">
                 <div class="flex flex-col gap-1">
-                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">Category Name</label>
-                    <InputText v-model="name" :class="{ 'p-invalid': errors.name }" />
-                    <span v-if="errors.name" class="text-red-500">{{ errors.name }}</span>
+                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">{{$t('name_ar')}}</label>
+                    <InputText v-model="nameAr" :class="{ 'p-invalid': errors.nameAr }" />
+                    <span v-if="errors.nameAr" class="text-red-500">{{ errors.nameAr }}</span>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">Category Slug</label>
+                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">{{$t('name_en')}}</label>
+                    <InputText v-model="nameEn" :class="{ 'p-invalid': errors.nameEn }" />
+                    <span v-if="errors.nameEn" class="text-red-500">{{ errors.nameEn }}</span>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">{{$t('slug')}}</label>
                     <InputText v-model="slug" :class="{ 'p-invalid': errors.slug }" />
                     <span v-if="errors.slug" class="text-red-500">{{ errors.slug }}</span>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">Parent Category</label>
+                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">{{$t('category.parent_category')}}</label>
                     <Select v-model="parent_id" :options="categories" optionLabel="name" optionValue="id":class="{ 'p-invalid': errors.parent_id }" />
                     <span v-if="errors.parent_id" class="text-red-500">{{ errors.parent_id }}</span>
                 </div>
                 <div class="flex flex-col gap-1">
-                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">Order</label>
+                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">{{$t('order')}}</label>
                     <InputNumber v-model="order" :class="{ 'p-invalid': errors.order }" />
                     <span v-if="errors.order" class="text-red-500">{{ errors.order }}</span>
                 </div>
                 <div class="flex flex-col gap-1 col-span-2">
-                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">Category Image</label>
+                    <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">{{$t('image')}}</label>
                     <FileUpload ref="fileupload" :fileLimit="1" name="demo[]" accept="image/*" :maxFileSize="1000000" customUpload :class="{ 'p-invalid': errors.parent_id }" />
                     <span v-if="errors.parent_id" class="text-red-500">{{ errors.parent_id }}</span>
                 </div>
@@ -150,9 +167,9 @@ function check(){
                     </div>
                 </div> -->
                 <div class="w-full flex justify-end col-span-2">
-                    <Button class="w-fit" label="Submit" type="submit"></Button>
+                    <Button class="w-fit" :label="$t('save')" type="submit"></Button>
                 </div>
-                <Button @click="check"></Button>
+            
             </div>
         </form>
 

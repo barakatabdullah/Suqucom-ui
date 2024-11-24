@@ -10,6 +10,8 @@ export const toggleColorScheme = () => {
 
 
 export function setI18nLanguage(lang: Locale) {
+const settingsStore = useSettingsStore()
+
     i18n.global.locale.value = lang as any
     if (typeof document !== 'undefined')
       {document.querySelector('html')?.setAttribute('lang', lang)
@@ -20,7 +22,9 @@ export function setI18nLanguage(lang: Locale) {
 
       }
 
+      settingsStore.settings.lang = lang
       localStorage.setItem("lang", lang);
+      
 
     return lang
   }

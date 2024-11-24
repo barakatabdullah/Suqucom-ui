@@ -9,11 +9,12 @@ import { useToast } from 'primevue/usetoast';
 const router = useRouter()
 const toast = useToast();
 const queryClient = useQueryClient();
+const settingsStore = useSettingsStore();
 
 
 
 const { data } = useQuery({
-  queryKey: ['categories'],
+  queryKey: ['categories', settingsStore.settings.lang],
   queryFn: getCategories,
 })
 
