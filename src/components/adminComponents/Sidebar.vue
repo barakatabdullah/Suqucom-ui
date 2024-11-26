@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 
 import PanelMenu from 'primevue/panelmenu';
+import { useI18n } from 'vue-i18n';
 
 interface NavItem {
     label: string;
@@ -8,6 +9,8 @@ interface NavItem {
     route?: string;
     items?: NavItem[];
 }
+
+const { t } = useI18n()
 
 const settingsStore = useSettingsStore();
 const navItems = ref<NavItem[]>([
@@ -38,7 +41,7 @@ const navItems = ref<NavItem[]>([
             },
 
             {
-                label: 'Categories',
+                label: t('category.plural'),
                 icon: 'i-hugeicons-ellipse-selection',
                 route: 'Categories' as const
             },

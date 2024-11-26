@@ -1,40 +1,42 @@
 <script lang="ts" setup>
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
-import { getCategories } from './_utils/categories';
+import { deleteCategory, getCategories } from './_utils/categories';
 import moment from 'moment';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
+import { useI18n } from 'vue-i18n';
 
 
 const router = useRouter()
 const toast = useToast();
 const queryClient = useQueryClient();
 const settingsStore = useSettingsStore();
+const { t } = useI18n()
 
 
 
-const { data } = useQuery({
+const { data } = useQuery<Category[]>({
   queryKey: ['categories', settingsStore.settings.lang],
   queryFn: getCategories,
 })
 
 function onRowClick(row: any) {
-  // router.push({ name: 'Users-id', params: { id: row.data.id } })
+  router.push({ name: 'Category-manage', params: { id: row.data.id } })
 
 }
 
-// const { mutateAsync:removeMutate } = useMutation({
-//     mutationFn: async (id:number) => {
-//         await deleteUser(id);
-//     },
-//     onSuccess: () => {
-//         toast.add({ severity: 'info', summary: 'Success', detail: 'User deleted successfully', life: 3000 });
-//         queryClient.invalidateQueries(['users']);
-//     },
-//     onError: (error) => {
-//         toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
-//     }
-// })
+const { mutateAsync:removeMutate } = useMutation({
+    mutationFn: async (id:Category['id']) => {
+        await deleteCategory(id)
+    },
+    onSuccess: () => {
+        toast.add({ severity: 'info', summary: 'Success', detail: 'User deleted successfully', life: 3000 });
+        queryClient.invalidateQueries({ queryKey: ['categories'] });
+    },
+    onError: (error) => {
+        toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
+    }
+})
 
 </script>
 
@@ -56,17 +58,30 @@ function onRowClick(row: any) {
           class: 'cursor-pointer'
         }
       }" class="rounded-lg border overflow-hidden" rowHover @rowClick="onRowClick" :value="data">
-        <Column filed="name" header="Name">
+        <Column filed="name" :header="t('name')">
           <template #body="slotProps">
-            {{ slotProps.data.name }}
+            <div class="w-full text-start">
+              {{ slotProps.data.name }}
+            </div>
           </template>
         </Column>
 
         <Column filed="slug" header="Slug">
           <template #body="slotProps">
+            <div class="w-full text-start">
             {{ slotProps.data.slug }}
+            </div>
           </template>
         </Column>
+
+        <Column filed="slug" :header="t('category.parent_category')">
+          <template #body="slotProps">
+            <div class="w-full text-start">
+            {{ slotProps.data.parent_category?.name ?? '------' }}
+            </div>
+          </template>
+        </Column>
+
         <Column filed="active" header="Active">
           <template #body="slotProps">
             {{ slotProps.data.active ? 'Yes' : 'No' }}
@@ -98,13 +113,13 @@ function onRowClick(row: any) {
         <Column filed="edit">
           <template #body="slotProps">
             <Button
-              @click="() => $router.push({ name: 'Users-id', params: { id: slotProps.data.id }, query: { mode: 'edit' } })"
+              @click="() => $router.push({ name: 'Category-manage', params: { id: slotProps.data.id } })"
               icon="i-heroicons-pencil-square" text />
           </template>
         </Column>
         <Column filed="remove">
           <template #body="slotProps">
-            <Button icon="i-heroicons-trash" text severity="danger" />
+            <Button icon="i-heroicons-trash" text severity="danger" @click="removeMutate(slotProps.data.id)"/>
           </template>
         </Column>
 

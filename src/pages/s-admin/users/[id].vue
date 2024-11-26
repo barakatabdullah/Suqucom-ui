@@ -100,7 +100,7 @@ const { mutateAsync } = useMutation({
     },
     onSuccess: () => {
         toast.add({ severity: 'info', summary: 'Success', detail: 'User Updated successfully', life: 3000 });
-        queryClient.invalidateQueries(['users', 'user']);
+        queryClient.invalidateQueries({ queryKey: ['users', 'user'] });
     },
     onError: (error) => {
         toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });

@@ -56,6 +56,7 @@ declare global {
   const toggleSidebar: typeof import('./stores/layout')['toggleSidebar']
   const triggerRef: typeof import('vue')['triggerRef']
   const unref: typeof import('vue')['unref']
+  const useAppStore: typeof import('./stores/app')['useAppStore']
   const useAttrs: typeof import('vue')['useAttrs']
   const useCounterStore: typeof import('./stores/user')['useCounterStore']
   const useCssModule: typeof import('vue')['useCssModule']
