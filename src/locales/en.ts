@@ -2,6 +2,12 @@ export const en={
     hello: 'hello',
     toggleColorTheme : 'Toggle Color Theme',
     language : 'Toggle Language',
+
+    email: 'Email',
+    password: 'Password',
+    login: 'Login',
+
+
     name_ar : 'Name (Arabic)',
     name_en : 'Name (English)',
     name: 'Name',

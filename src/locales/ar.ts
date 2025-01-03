@@ -2,6 +2,11 @@ export const ar={
     hello: 'مرحباً',
     toggleColorTheme : 'تبديل السمة اللونية',
     language : 'تبديل اللغة',
+
+    email: 'البريد الإلكتروني',
+    password: 'كلمة المرور',
+    login: 'تسجيل الدخول',
+
     name_ar : 'الإسم (عربي)',
     name_en : 'الإسم (إنجليزي)',
     name: 'الإسم',

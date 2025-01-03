@@ -27,6 +27,7 @@ declare module 'vue-router/auto-routes' {
     'Categories': RouteRecordInfo<'Categories', '/s-admin/categories', Record<never, never>, Record<never, never>>,
     'Category-manage': RouteRecordInfo<'Category-manage', '/s-admin/categories/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     'Categories-add': RouteRecordInfo<'Categories-add', '/s-admin/categories/add', Record<never, never>, Record<never, never>>,
+    'AdminLogin': RouteRecordInfo<'AdminLogin', '/s-admin/login', Record<never, never>, Record<never, never>>,
     'Products': RouteRecordInfo<'Products', '/s-admin/products', Record<never, never>, Record<never, never>>,
     'Products-add': RouteRecordInfo<'Products-add', '/s-admin/products/add', Record<never, never>, Record<never, never>>,
     'Reports': RouteRecordInfo<'Reports', '/s-admin/reports', Record<never, never>, Record<never, never>>,

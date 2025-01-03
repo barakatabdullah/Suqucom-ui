@@ -7,8 +7,8 @@ export const useSettingsStore = defineStore('Settings', {
   state: () => {
     return {
         settings: {
-            theme: localStorage.getItem('theme') || 'light',
-            lang: localStorage.getItem('lang') || 'en',
+            theme: localStorage.getItem('theme') ?? 'light',
+            lang: localStorage.getItem('lang') ?? 'en',
             isSidebarCollapsed: localStorage.getItem('isSidebarCollapsed') === 'true',
 
         },

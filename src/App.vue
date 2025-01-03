@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query';
-import { getUser } from '@/utils/functions';
+import { getUser, initTheme } from '@/utils/functions'
 import { loadLanguageAsync } from '@/utils/functions';
-
-
 loadLanguageAsync(localStorage.getItem('lang') ?? 'en')
+initTheme()
+
 
 
 const { data } = useQuery({

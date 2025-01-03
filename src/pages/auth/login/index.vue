@@ -37,11 +37,11 @@ const { mutateAsync } = useMutation({
     return res
   },
   onSuccess: (data) => {
-    userStore.user.name = data.data.user.fname + ' ' + data.data.user.lname
-    userStore.user.token = data.data.token
+    userStore.user.name = data.user.fname + ' ' + data.user.lname
+    userStore.user.token = data.token
 
-    localStorage.setItem('user', data.data.user.fname + ' ' + data.data.user.lname)
-    localStorage.setItem('token', data.data.token)
+    localStorage.setItem('user', data.user.fname + ' ' + data.user.lname)
+    localStorage.setItem('token', data.token)
 
     router.push({ name: 'Home' })
   },
