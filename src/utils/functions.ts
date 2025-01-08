@@ -1,4 +1,4 @@
-import api from '@/config/axios'
+import { api } from '@/config/axios'
 import { i18n } from '@/main'
 import { type Locale } from 'vue-i18n'
 

@@ -10,6 +10,18 @@ export const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const userStore = useUserStore()
-  if (to.meta.requiresAuth && !userStore.user.token) next({ name: 'Login' })
-  else next()
+  const adminStore = useAdminStore()
+  if (to.meta.requiresAdmin && !adminStore.admin.token) {
+    return next({ name: 'AdminLogin' })
+  }
+
+  else if (to.name === 'AdminLogin' && adminStore.admin.token) {
+    return next({ name: 'AdminDashboard' })
+  }
+
+  else if (to.meta.requiresAuth && !userStore.user.token) {
+    return next({ name: 'Login' })
+  }
+
+  next()
 })

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { useRouter } from 'vue-router'
-import api from '@/config/axios'
 
 const router = useRouter()
 

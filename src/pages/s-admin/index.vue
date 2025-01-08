@@ -10,11 +10,7 @@ const settingsStore = useSettingsStore()
 
 <template>
   Dashboard
-  <Button
-    label="Toggle"
-
-    @click="settingsStore.toggleSidebar"
-  />
+  <Button label="Toggle" @click="settingsStore.toggleSidebar" />
 
   <h4>{{ $t('hello') }}</h4>
 
@@ -23,8 +19,8 @@ const settingsStore = useSettingsStore()
 </template>
 
 <route lang="yaml">
-name: Dashboard
+name: AdminDashboard
 meta:
-layout: admin
-requiresAuth: true
+  layout: admin
+  requiresAdmin: true
 </route>

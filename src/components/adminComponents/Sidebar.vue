@@ -17,7 +17,7 @@ const navItems = ref<NavItem[]>([
     {
         label: 'Dashboard',
         icon: 'i-hugeicons-dashboard-square-01',
-        route: 'Dashboard' as const
+        route: 'AdminDashboard' as const
     },
     {
         label: 'Users',

@@ -6,7 +6,7 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 
 import Select from 'primevue/select';
-import api from '@/config/axios';
+import { api } from '@/config/axios';
 
 import Toast from 'primevue/toast';
 

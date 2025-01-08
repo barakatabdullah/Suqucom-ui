@@ -3,13 +3,13 @@ import { useForm } from 'vee-validate'
 import * as zod from 'zod'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useMutation } from '@tanstack/vue-query'
-import api from '@/config/axios'
+import { adminApi } from '@/config/axios'
 import { router } from '@/router'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 import { toggleColorScheme } from '@/utils/functions'
 
-const userStore = useUserStore()
+const adminStore = useAdminStore()
 const toast = useToast()
 
 const settingsStore = useSettingsStore()
@@ -30,8 +30,8 @@ const [password] = defineField('password')
 
 // Mutation
 const { mutateAsync } = useMutation({
-  mutationFn: async (data: any) => {
-    const res = await api
+  mutationFn: async (data: {email:Admin['email'], password:string}) => {
+    const res = await adminApi
       .post('admin/login', {
         email: data.email,
         password: data.password
@@ -39,17 +39,18 @@ const { mutateAsync } = useMutation({
       .then((res) => res.data)
     return res
   },
-  onSuccess: (data) => {
-    userStore.user.name = data.user.fname + ' ' + data.user.lname
-    userStore.user.token = data.token
+  onSuccess: (data:{ admin:Admin, token:string }) => {
+    adminStore.admin.name = data.admin.name
+    adminStore.admin.token = data.token
 
-    localStorage.setItem('user', data.user.fname + ' ' + data.user.lname)
-    localStorage.setItem('token', data.token)
+    localStorage.setItem('adminName', data.admin.name)
+    localStorage.setItem('adminToken', data.token)
 
-    router.push({ name: 'Home' })
+    router.push({ name: 'AdminDashboard' })
+    console.log(data)
   },
-  onError: (error) => {
-    toast.add({ severity: 'error', summary: 'Error', detail: error.response?.data.error, life: 3000 })
+  onError: (error: { response?: { data?: string } }) => {
+    toast.add({ severity: 'error', summary: 'Error', detail: error.response?.data, life: 3000 })
   }
 })
 

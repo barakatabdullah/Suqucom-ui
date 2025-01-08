@@ -8,7 +8,7 @@ import Select from 'primevue/select';
 import InputNumber from 'primevue/inputnumber';
 import { useMutation, useQuery } from '@tanstack/vue-query';
 import { getCategories } from './_utils/categories';
-import api from '@/config/axios';
+import { api } from '@/config/axios';
 import { router } from '@/router';
 import { useI18n } from 'vue-i18n';
 

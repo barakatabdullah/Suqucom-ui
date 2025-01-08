@@ -2,7 +2,7 @@
 
 @import '@unocss/reset/tailwind.css'layer(tailwind-reset) ;
 
-@unocss
+/*@unocss*/
 
 *{
     font-size : 14px;

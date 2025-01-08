@@ -8,7 +8,7 @@ import { useForm } from "vee-validate";
 import * as zod from "zod";
 import { toTypedSchema } from "@vee-validate/zod";
 import { useMutation } from "@tanstack/vue-query";
-import api from "@/config/axios";
+import { api } from "@/config/axios";
 
 const RegisterSchema = toTypedSchema(
   zod.object({

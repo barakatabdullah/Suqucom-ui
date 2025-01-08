@@ -12,7 +12,7 @@ import Image from 'primevue/image';
 
 
 import Select from 'primevue/select';
-import api from '@/config/axios';
+import { api } from '@/config/axios';
 
 import Toast from 'primevue/toast';
 
