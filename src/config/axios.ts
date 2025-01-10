@@ -34,7 +34,7 @@ adminApi.interceptors.request.use((config) => {
   const adminStore = useAdminStore();
   const settingsStore = useSettingsStore();
   // Set the base URL
-  config.baseURL = '/api';
+  config.baseURL = '/api/admin';
 
   // Set the request headers
   config.headers = {

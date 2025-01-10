@@ -7,6 +7,9 @@ export const en={
     password: 'Password',
     login: 'Login',
 
+    profile: 'Profile',
+    settings: 'Settings',
+    logout: 'Logout',
 
     name_ar : 'Name (Arabic)',
     name_en : 'Name (English)',

@@ -30,20 +30,22 @@ const [password] = defineField('password')
 
 // Mutation
 const { mutateAsync } = useMutation({
-  mutationFn: async (data: {email:Admin['email'], password:string}) => {
+  mutationFn: async (data: { email: Admin['email'], password: string }) => {
     const res = await adminApi
-      .post('admin/login', {
+      .post('login', {
         email: data.email,
         password: data.password
       })
       .then((res) => res.data)
     return res
   },
-  onSuccess: (data:{ admin:Admin, token:string }) => {
+  onSuccess: (data: { admin: Admin, token: string }) => {
     adminStore.admin.name = data.admin.name
+    adminStore.admin.avatar = data.admin.avatar
     adminStore.admin.token = data.token
 
     localStorage.setItem('adminName', data.admin.name)
+    localStorage.setItem('adminAvatar', data.admin.avatar)
     localStorage.setItem('adminToken', data.token)
 
     router.push({ name: 'AdminDashboard' })
@@ -62,11 +64,11 @@ const onSubmit = handleSubmit((values) => {
 
 <template>
   <Toast />
-  <div class="flex items-center justify-center col-span-4 w-full h-full bg-primary-100 dark:bg-primary-950 text-primary-900 dark:text-primary-100 relative">
+  <div
+    class="flex items-center justify-center col-span-4 w-full h-full bg-primary-100 dark:bg-primary-950 text-primary-900 dark:text-primary-100 relative">
     <div class="absolute top-6 start-6 flex items-center gap-4">
       <LanguageSwitch />
-      <Button
-        :icon="settingsStore.settings.theme === 'light' ? 'i-hugeicons-moon-02' : 'i-hugeicons-sun-01'"
+      <Button :icon="settingsStore.settings.theme === 'light' ? 'i-hugeicons-moon-02' : 'i-hugeicons-sun-01'"
         @click="toggleColorScheme" />
 
     </div>
@@ -74,25 +76,25 @@ const onSubmit = handleSubmit((values) => {
       <form @submit="onSubmit" class="w-full px-4">
         <div class="flex flex-col gap-6">
 
-              <h1 class="text-3xl text-center font-bold text-primary-700 dark:text-primary-300">{{$t('login')}}</h1>
+          <h1 class="text-3xl text-center font-bold text-primary-700 dark:text-primary-300">{{ $t('login') }}</h1>
 
-            <div class="flex flex-col gap-2">
-              <label class="text-primary-500 text-3.5 font-semibold" for="email">{{$t('email')}}</label>
-              <InputText id="email" v-model="email" :class="{ 'p-invalid': errors.email }" />
-            </div>
+          <div class="flex flex-col gap-2">
+            <label class="text-primary-500 text-3.5 font-semibold" for="email">{{ $t('email') }}</label>
+            <InputText id="email" v-model="email" :class="{ 'p-invalid': errors.email }" />
+          </div>
 
-            <div class="flex flex-col gap-2">
-              <label class="font-semibold text-primary-500 text-3.5" for="password">{{$t('password')}}</label>
-              <Password id="password" v-model="password" :feedback="false" :pt="{
+          <div class="flex flex-col gap-2">
+            <label class="font-semibold text-primary-500 text-3.5" for="password">{{ $t('password') }}</label>
+            <Password id="password" v-model="password" :feedback="false" :pt="{
               pcinputtext: {
                 root: {
                   class: 'w-full'
                 }
               }
             }" :invalid="!!errors.password" />
-            </div>
+          </div>
 
-            <Button type="submit" :label="$t('login')" />
+          <Button type="submit" :label="$t('login')" />
 
         </div>
       </form>
@@ -101,7 +103,7 @@ const onSubmit = handleSubmit((values) => {
 </template>
 
 <route lang="yaml">
-name: AdminLogin
-meta:
-layout: default
+  name: AdminLogin
+  meta:
+    layout: default
 </route>

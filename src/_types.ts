@@ -8,7 +8,7 @@ declare global {
         email: string
         is_email_verified: boolean
         active: boolean
-        media: object
+        avatar: string
         roles: object[]
     }
 

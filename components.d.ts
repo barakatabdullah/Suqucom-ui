@@ -17,6 +17,7 @@ declare module 'vue' {
     InputSwitch: typeof import('primevue/inputswitch')['default']
     InputText: typeof import('primevue/inputtext')['default']
     LanguageSwitch: typeof import('./src/components/LanguageSwitch.vue')['default']
+    Menu: typeof import('primevue/menu')['default']
     Password: typeof import('primevue/password')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

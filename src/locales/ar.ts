@@ -7,6 +7,13 @@ export const ar={
     password: 'كلمة المرور',
     login: 'تسجيل الدخول',
 
+
+
+    profile: 'الملف الشخصي',
+    settings: 'الإعدادات',
+    logout: 'تسجيل الخروج',
+
+
     name_ar : 'الإسم (عربي)',
     name_en : 'الإسم (إنجليزي)',
     name: 'الإسم',

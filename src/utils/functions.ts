@@ -1,4 +1,4 @@
-import { api } from '@/config/axios'
+import { adminApi, api } from '@/config/axios'
 import { i18n } from '@/main'
 import { type Locale } from 'vue-i18n'
 
@@ -60,6 +60,19 @@ export async function changeLanguage(lang: string) {
   location.reload()
 }
 
+
+export async function getAdmin() {
+  const adminStore = useAdminStore()
+
+  const { data } = await adminApi.get<Admin>('/')
+  adminStore.admin.name = data.name
+  adminStore.admin.avatar = data.avatar
+
+  localStorage.setItem('adminName', data.name)
+  localStorage.setItem('adminAvatar', data.avatar)
+
+  return data
+}
 
 export async function getUser() {
   const { data } = await api.get('user')
