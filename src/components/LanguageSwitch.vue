@@ -37,7 +37,7 @@ const customSelectTheme = ref({
         class: 'hidden!'
       }
       }"
-    class="aspect-square max-46px hover:bg-primary-200!"
+    class="aspect-square max-h-2.71rem hover:bg-primary-200!"
     :dt="customSelectTheme"
     v-model="$i18n.locale" :options="$i18n.availableLocales"
     @change="(event)=>changeLanguage(event.value)" :placeholder="$t('language')">

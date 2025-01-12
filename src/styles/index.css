@@ -5,7 +5,7 @@
 /*@unocss*/
 
 *{
-    font-size : 14px;
+    font-size : calc(0.3rem + 0.5vw);
 }
 
 html[dir="rtl"] {

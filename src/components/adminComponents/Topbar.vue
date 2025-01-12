@@ -10,6 +10,9 @@ const { data } = useQuery({
 })
 
 const adminStore = useAdminStore()
+
+const settingsStore = useSettingsStore()
+
 const { t } = useI18n()
 
 const menu = ref();
@@ -43,16 +46,18 @@ const items = ref([
 <template>
   <div class="w-full py-4 flex gap-6 justify-between">
     <div>
-      <LanguageSwitch />
-      <Button :label="$t('toggleColorTheme')" @click="toggleColorScheme" />
+     
     </div>
-    <div>
+    <div class="flex gap-4 items-center">
+      <LanguageSwitch />
+      <Button :icon="settingsStore.settings.theme === 'light' ? 'i-hugeicons-moon-02' : 'i-hugeicons-sun-01'"
+        @click="toggleColorScheme" />
       <div @click="toggle" class="flex items-center gap-4 justify-between cursor-pointer min-w-12rem">
 
         <div class="flex items-center gap-4">
           <Avatar :image="adminStore.admin.avatar ?? undefined"
             :icon="adminStore.admin.avatar == null ? 'i-hugeicons-user' : ''"
-            class="bg-primary-100 border! dark:border-neutral-700!" size="large" />
+            class="bg-primary-100 border! dark:border-neutral-700!" size="large" shape="circle" />
           <div @click="" class="flex flex-col ">
             <h1 class="text-1.2rem font-semibold text-primary-700 dark:text-primary-300">{{ adminStore.admin.name }}</h1>
             <p class="text-[0.9rem] text-gray-600">admin</p>
