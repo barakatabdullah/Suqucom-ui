@@ -15,14 +15,25 @@ const { t } = useI18n()
 const settingsStore = useSettingsStore();
 const navItems = ref<NavItem[]>([
     {
-        label: 'Dashboard',
+        label: t('dashboard'),
         icon: 'i-hugeicons-dashboard-square-01',
         route: 'AdminDashboard' as const
     },
     {
-        label: 'Users',
-        icon: 'i-hugeicons-user-multiple',
-        route: 'Users' as const
+        label: t('accounts'),
+        icon: 'i-hugeicons-user-sharing',
+        items: [
+            {
+                label: t('admin.plural'),
+                icon: 'i-hugeicons-manager',
+                route: 'Admins' as const
+            },
+            {
+                label: t('user.plural'),
+                icon: 'i-hugeicons-user-multiple',
+                route: 'Users' as const
+            },
+        ]
     },
     {
         label: 'Roles',
@@ -111,7 +122,7 @@ const route = useRoute();
 
 
 <template>
-    <nav :class="['bg-[#F4F8FA] h-full rounded-6 flex flex-col gap-10 overflow-hidden',
+    <nav :class="['bg-[#F4F8FA] h-full rounded-6 flex flex-col gap-10 overflow-hidden dark:bg-primary-900',
         settingsStore.settings.isSidebarCollapsed ? 'w-26 items-center' : 'w-90 items-start'
     ]">
         <a class="w-full p-6 " href="/">
@@ -132,18 +143,19 @@ const route = useRoute();
                 <template #item="{ item }">
                     <router-link v-if="item.route"
                         v-tooltip.right="settingsStore.settings.isSidebarCollapsed ? { value: item.label } : null"
-                        :to="{ name: item.route }" :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
-                            { 'bg-[#E5E7EB]': route.name === item.route }
+                        :to="{ name: item.route }" :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB] dark:hover:bg-primary-800',
+                            { 'bg-[#E5E7EB] dark:bg-primary-800': route.name === item.route }
                         ]">
                         <i :class="[item.icon, 'text-5']"></i>
                         <span v-if="!settingsStore.settings.isSidebarCollapsed">{{ item.label }}</span>
                     </router-link>
-                    <div v-else :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB]',
-                        { 'bg-[#E5E7EB]': item.items && (item.items as NavItem[]).some((child: NavItem) => route.name === child.route) }
+                    <div v-else :class="['w-full flex items-center gap-4 p-4 rounded-3 hover:bg-[#E5E7EB] dark:hover:bg-primary-800',
+                        { 'bg-[#E5E7EB] dark:bg-primary-800': item.items && (item.items as NavItem[]).some((child: NavItem) => route.name === child.route) }
                     ]" v-tooltip.right="settingsStore.settings.isSidebarCollapsed ? { value: item.label } : null">
                         <i :class="[item.icon, 'text-5']"></i>
                         <span v-if="!settingsStore.settings.isSidebarCollapsed">{{ item.label }}</span>
-                        <i v-if="!settingsStore.settings.isSidebarCollapsed" class="i-hugeicons-arrow-down-01 ms-auto"></i>
+                        <i v-if="!settingsStore.settings.isSidebarCollapsed"
+                            class="i-hugeicons-arrow-down-01 ms-auto"></i>
                     </div>
                 </template>
             </PanelMenu>

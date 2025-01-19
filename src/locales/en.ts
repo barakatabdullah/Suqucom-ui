@@ -32,4 +32,19 @@ export const en={
     must_be_arabic: 'Must be in Arabic',
     must_be_english: 'Must be in English',
 
+    dashboard: 'Dashboard',
+    accounts: 'Accounts',
+    add: 'Add {name}',
+    admin: {
+        singular: 'Admin',
+        plural: 'Admins',
+        discrption: 'You can Manage Admins , Edit or Delete them',
+    },
+    user:{
+        singular: 'User',
+        plural: 'Users',
+        discrption: 'You can Manage Users , Edit or Delete them',
+    },
+
+
 }

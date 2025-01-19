@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
-import { deleteUser, getUsers } from './_utils/users';
+import { deleteAdmin, getAdmins } from './_utils/admins';
 import moment from 'moment';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
@@ -13,23 +13,23 @@ const queryClient = useQueryClient();
 
 
 const { data } = useQuery({
-  queryKey: ['users'],
-  queryFn: getUsers,
+  queryKey: ['admins'],
+  queryFn: getAdmins,
   select: (data) => data.data
 })
 
 function onRowClick(row: any) {
-  router.push({ name: 'Users-id', params: { id: row.data.id } })
+  router.push({ name: 'Admins-id', params: { id: row.data.id } })
 
 }
 
 const { mutateAsync:removeMutate } = useMutation({
     mutationFn: async (id:number) => {
-        await deleteUser(id);
+        await deleteAdmin(id);
     },
     onSuccess: () => {
         toast.add({ severity: 'info', summary: 'Success', detail: 'User deleted successfully', life: 3000 });
-        queryClient.invalidateQueries(['users']);
+        queryClient.invalidateQueries({queryKey:['admins']});
     },
     onError: (error) => {
         toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
@@ -43,11 +43,12 @@ const { mutateAsync:removeMutate } = useMutation({
     <Toast/>
     <div class="w-full flex items-center justify-between">
       <div class="flex flex-col gap-2 items-start">
-        <h2 class="font-600 text-6 text-color">USERS</h2>
-        <p class="text-gray-600">You can View, Add, Edit and Remove users</p>
+        <h2 class="font-600 text-6 text-color uppercase">{{ $t('admin.plural') }}</h2>
+        <p class="text-gray-600">{{ $t('admin.discrption') }}</p>
       </div>
 
-      <Button  @click="()=>$router.push({name:'Users-add'})" label="Add User" />
+      <Button  @click="()=>$router.push({name:'Admins-add'})" :label="$t('add',{name:$t('admin.singular')})"
+         />
     </div>
 
 <div class="h-full overflow-y-auto">
@@ -125,7 +126,7 @@ const { mutateAsync:removeMutate } = useMutation({
 </template>
 
 <route lang="yaml">
-    name: Users
+    name: Admins
     meta:
       layout: admin
       requiresAuth: true

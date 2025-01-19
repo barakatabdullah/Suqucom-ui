@@ -34,5 +34,20 @@ export const ar={
     save: 'حفظ',
     must_be_arabic: 'يجب أن يكون بالعربية',
     must_be_english: 'يجب أن يكون بالإنجليزية',
+
+
+    dashboard: 'لوحة التحكم',
+    accounts: 'الحسابات',
+    add: 'إضافة {name}',
+    admin: {
+        singular: 'مدير',
+        plural: 'المدراء',
+        discrption: 'يمكنك إدارة المدراء، تعديلهم أو حذفهم',
+    },
+    user:{
+        singular: 'مستخدم',
+        plural: 'المستخدمين',
+        discrption: 'يمكنك إدارة المستخدمين، تعديلهم أو حذفهم',
+    },
     
 }
