@@ -6,6 +6,7 @@ export const en={
     email: 'Email',
     password: 'Password',
     login: 'Login',
+    joined_at: 'Joined At',
 
     profile: 'Profile',
     settings: 'Settings',
@@ -45,6 +46,17 @@ export const en={
         plural: 'Users',
         discrption: 'You can Manage Users , Edit or Delete them',
     },
+    permission:{
+        singular: 'Permission',
+        plural: 'Permissions',
+        discrption: 'You can Manage Permissions , Edit or Delete them',
+    },
+    role:{
+        singular: 'Role',
+        plural: 'Roles',
+        discrption: 'You can Manage Roles , Edit or Delete them',
+    },
+
 
 
 }

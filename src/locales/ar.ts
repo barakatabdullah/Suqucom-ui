@@ -6,6 +6,7 @@ export const ar={
     email: 'البريد الإلكتروني',
     password: 'كلمة المرور',
     login: 'تسجيل الدخول',
+    joined_at: 'تاريخ الإنضمام',
 
 
 
@@ -49,5 +50,16 @@ export const ar={
         plural: 'المستخدمين',
         discrption: 'يمكنك إدارة المستخدمين، تعديلهم أو حذفهم',
     },
+    permission:{
+        singular: 'صلاحية',
+        plural: 'الصلاحيات',
+        discrption: 'يمكنك إدارة الصلاحيات، تعديلها أو حذفها',
+    },
+    role:{
+        singular: 'دور',
+        plural: 'الأدوار',
+        discrption: 'يمكنك إدارة الأدوار، تعديلها أو حذفها',
+    },
+
     
 }

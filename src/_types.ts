@@ -2,14 +2,31 @@ export{}
 
 declare global {
 
+    type Permission={
+        id: number
+        name: string
+        key: string
+        guard_name: string
+    }
+
+    type Role={
+        id: number
+        name: string
+        guard_name: string
+        permissions: Permission[]
+    }
+    
+
     type Admin={
         id: number
         name: string
         email: string
         is_email_verified: boolean
+        locale: string
         active: boolean
         avatar: string
-        roles: object[]
+        roles: Role[]
+        created_at: string
     }
 
     type Category={
@@ -25,5 +42,6 @@ declare global {
         parent_id?: number
         parent_category?: Category
     }
+
 
 }

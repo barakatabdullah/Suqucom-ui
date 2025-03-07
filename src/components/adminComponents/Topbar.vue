@@ -4,9 +4,9 @@ import { useQuery } from '@tanstack/vue-query';
 import type { MenuItem } from 'primevue/menuitem';
 import { useI18n } from 'vue-i18n';
 
-const { data } = useQuery({
+const { data } = useQuery<Admin>({
   queryKey: ['admin'],
-  queryFn: getAdmin
+  queryFn: getAdmin,
 })
 
 const adminStore = useAdminStore()
