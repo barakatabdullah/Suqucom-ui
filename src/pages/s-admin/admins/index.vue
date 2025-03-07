@@ -4,18 +4,20 @@ import { deleteAdmin, getAdmins } from './_utils/admins';
 import moment from 'moment/min/moment-with-locales';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
+import type { PageState } from 'primevue/paginator';
 
 
 const router = useRouter()
 const toast = useToast();
 const queryClient = useQueryClient();
 const settingsStore = useSettingsStore();
+const page = ref(1);
+const rowsPerPage = ref(10);
 
 
-
-const { data } = useQuery<Admin[]>({
+const { data } = useQuery({
   queryKey: ['admins'],
-  queryFn: getAdmins,
+  queryFn: () => getAdmins({page: page.value}),
 })
 
 function onRowClick(row: { data: Admin }) {
@@ -36,6 +38,12 @@ const { mutateAsync: removeMutate } = useMutation({
   }
 })
 
+
+function pageChange(event: PageState) {
+  page.value = event.page + 1;
+  queryClient.invalidateQueries({ queryKey: ['admins'] });
+}
+
 </script>
 
 <template>
@@ -44,7 +52,7 @@ const { mutateAsync: removeMutate } = useMutation({
     <div class="w-full flex items-center justify-between">
       <div class="flex flex-col gap-2 items-start">
         <h2 class="font-600 text-6 text-color uppercase">{{ $t('admin.plural') }}</h2>
-        <p class="text-gray-600">{{ $t('admin.discrption') }}</p>
+        <p class="text-gray-600 dark:text-gray-400">{{ $t('admin.discrption') }}</p>
       </div>
 
       <Button @click="() => $router.push({ name: 'Admins-add' })" :label="$t('add', { name: $t('admin.singular') })" />
@@ -55,7 +63,8 @@ const { mutateAsync: removeMutate } = useMutation({
         bodyRow: {
           class: 'cursor-pointer'
         }
-      }" class="rounded-lg border overflow-hidden" rowHover @rowClick="onRowClick" :value="data">
+      }" 
+ class="rounded-xl border overflow-hidden dark:border-none" rowHover @rowClick="onRowClick" :value="data?.data">
         <Column filed="name" :header="$t('name')">
           <template #body="slotProps">
             <div class="text-start w-full"> {{ slotProps.data.name }}</div>
@@ -88,7 +97,7 @@ const { mutateAsync: removeMutate } = useMutation({
         <Column filed="edit">
           <template #body="slotProps">
             <Button
-              @click="() => $router.push({ name: 'Users-id', params: { id: slotProps.data.id }, query: { mode: 'edit' } })"
+              @click="() => $router.push({ name:'Admins-id', params: { id: slotProps.data.id }, query: { mode: 'edit' } })"
               icon="i-heroicons-pencil-square" text />
           </template>
         </Column>
@@ -104,6 +113,8 @@ const { mutateAsync: removeMutate } = useMutation({
 
 
       </DataTable>
+      <Paginator v-if="data?.meta.total > data?.meta.per_page" class="border rounded-xl w-full overflow-hidden dark:border-neutral-800 mt-3"
+       v-on:page="pageChange" :totalRecords="data?.meta.total" :rows="data?.meta.per_page" />
     </div>
   </div>
 </template>

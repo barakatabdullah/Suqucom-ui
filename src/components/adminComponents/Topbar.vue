@@ -60,7 +60,7 @@ const items = ref([
             class="bg-primary-100 border! dark:border-neutral-700!" size="large" shape="circle" />
           <div @click="" class="flex flex-col ">
             <h1 class="text-1.2rem font-semibold text-primary-700 dark:text-primary-300">{{ adminStore.admin.name }}</h1>
-            <p class="text-[0.9rem] text-gray-600">admin</p>
+            <p class="text-[0.9rem] text-gray-600 dark:text-gray-400">admin</p>
           </div>
         </div>
         <i class="i-hugeicons-arrow-down-01 text-primary-700 dark:text-primary-300"></i>

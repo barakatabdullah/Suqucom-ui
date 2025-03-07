@@ -1,8 +1,12 @@
 import { adminApi } from "@/config/axios"
 
 
-export async function getAdmins(){
-    const {data} = await adminApi.get('admins')
+export async function getAdmins({page = 1}){
+    const {data} = await adminApi.get('admins',{
+        params: {
+            page
+        }
+    })
       return data
 }
 
