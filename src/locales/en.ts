@@ -116,6 +116,8 @@ export const en={
         confirm_navigation: 'Confirm Navigation',
         remove_admin: 'Are you sure you want to remove this admin?',
         confirm_remove_admin: 'Confirm Remove Admin',
+        remove_user: 'Are you sure you want to remove this user?',
+        confirm_remove_user: 'Confirm Remove User',
         accept: 'Accept',
         reject: 'Reject',
         yes: 'Yes',

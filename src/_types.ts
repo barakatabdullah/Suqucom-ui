@@ -38,6 +38,17 @@ declare global {
         created_at: string
     }
 
+    type User = {
+        id: number
+        name: string
+        fname: string
+        lname: string
+        email: string
+        locale: string
+        avatar: string
+        created_at: string
+    }
+
     type Category = {
         id: number
         name: string

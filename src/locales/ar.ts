@@ -116,6 +116,8 @@ export const ar={
         confirm_navigation: 'تأكيد التنقل',
         remove_admin: 'هل أنت متأكد أنك تريد إزالة هذا المدير؟',
         confirm_remove_admin: 'تأكيد إزالة المدير',
+        remove_user: 'هل أنت متأكد أنك تريد إزالة هذا المستخدم؟',
+        confirm_remove_user: 'تأكيد إزالة المستخدم',
         accept: 'قبول',
         reject: 'رفض',
         yes: 'نعم',
