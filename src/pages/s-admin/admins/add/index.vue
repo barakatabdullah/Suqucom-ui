@@ -301,13 +301,13 @@ function goBack() {
                                 v-model="password" 
                                 :feedback="false"
                                 toggleMask
-                                :class="{ 'p-invalid': errors.password }"
-                                class="w-full" 
-                                :pt="{
-                                    input: {
-                                        class: 'w-full'
-                                    }
-                                }"
+                                :invalid="!!errors.password" class="w-full" :pt="{
+                                        pcinputtext: {
+                                            root: {
+                                                class: 'w-full'
+                                            }
+                                        }
+                                    }"
                             />
                             <small class="p-error mt-1">{{ errors.password || '' }}</small>
                         </div>
