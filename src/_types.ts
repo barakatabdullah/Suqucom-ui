@@ -2,22 +2,31 @@ export{}
 
 declare global {
 
-    type Permission={
+    type QueryParams = {
+        page?: number
+        per_page?: number
+        search?: string
+        sort_by?: string
+        sort_direction?: 'asc' | 'desc'
+        role?: string
+        active?: boolean | null
+    }
+
+    type Permission = {
         id: number
         name: string
         key: string
         guard_name: string
     }
 
-    type Role={
+    type Role = {
         id: number
         name: string
         guard_name: string
         permissions: Permission[]
     }
     
-
-    type Admin={
+    type Admin = {
         id: number
         name: string
         email: string
@@ -29,7 +38,7 @@ declare global {
         created_at: string
     }
 
-    type Category={
+    type Category = {
         id: number
         name: string
         name_ar?: string
@@ -42,6 +51,4 @@ declare global {
         parent_id?: number
         parent_category?: Category
     }
-
-
 }

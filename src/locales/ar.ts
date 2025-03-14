@@ -8,17 +8,14 @@ export const ar={
     login: 'تسجيل الدخول',
     joined_at: 'تاريخ الإنضمام',
 
-
-
     profile: 'الملف الشخصي',
     settings: 'الإعدادات',
     logout: 'تسجيل الخروج',
 
-
     name_ar : 'الإسم (عربي)',
     name_en : 'الإسم (إنجليزي)',
     name: 'الإسم',
-    slug: 'Slug',
+    slug: 'الرابط المختصر',
     category:{
         title: 'الفئة',
         plural: 'الفئات',
@@ -35,7 +32,6 @@ export const ar={
     save: 'حفظ',
     must_be_arabic: 'يجب أن يكون بالعربية',
     must_be_english: 'يجب أن يكون بالإنجليزية',
-
 
     dashboard: 'لوحة التحكم',
     accounts: 'الحسابات',
@@ -61,5 +57,78 @@ export const ar={
         discrption: 'يمكنك إدارة الأدوار، تعديلها أو حذفها',
     },
 
+    search: 'بحث',
+    sort_by: 'ترتيب حسب',
+    sort_direction: 'اتجاه الترتيب',
+    active: 'نشط',
+    inactive: 'غير نشط',
+    id: 'المعرف',
+    actions: 'إجراءات',
+    view: 'عرض',
+    edit: 'تعديل',
+    delete: 'حذف',
+    delete_confirmation: 'هل أنت متأكد أنك تريد الحذف؟',
+    delete_success: 'تم الحذف بنجاح',
+    delete_failed: 'فشل الحذف',
+    add_success: 'تمت الإضافة بنجاح',
+    add_failed: 'فشلت الإضافة',
+    edit_success: 'تم التعديل بنجاح',
+    edit_failed: 'فشل التعديل',
+    loading: 'جاري التحميل...',
+    no_data: 'لا توجد بيانات',
+    no_results: 'لا توجد نتائج',
+    no_search_results: 'لا توجد نتائج للبحث',
+    no_permission: 'لا توجد صلاحيات',
+    no_role: 'لا يوجد دور',
+    no_category: 'لا توجد فئات',
+    no_admin: 'لا يوجد مدراء',
+    status: 'الحالة',
+
+    search_by_name_or_email: 'البحث بالإسم أو البريد الإلكتروني',
+    filter_by_role: 'تصفية حسب الدور',
+
+    reset_filters: 'إعادة تعيين الفلاتر',
+    profile_image: 'صورة الملف الشخصي',
+    account_info: 'معلومات الحساب',
+    email_verified: 'البريد الإلكتروني مُوثّق',
+    account_active: 'الحساب نشط',
+    leave_blank_to_keep_current: 'اتركه فارغًا للحفاظ على كلمة المرور الحالية',
+    no_roles_assigned: 'لم يتم تعيين أي أدوار',
     
+    // New translations for form validation and errors
+    validation: {
+        required: 'هذا الحقل مطلوب',
+        name_min_length: 'يجب أن يكون الاسم أكثر من حرفين على الأقل',
+        email_invalid: 'عنوان البريد الإلكتروني غير صالح',
+        role_required: 'يجب اختيار دور واحد على الأقل',
+        password_min_length: 'يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل'
+    },
+    errors: {
+        failed_to_load_data: 'فشل تحميل بيانات المدير',
+        data_load_error: 'تعذر استرجاع معلومات هذا المدير',
+        update_failed: 'فشل تحديث المدير'
+    },
+    success: {
+        update_success: 'تم تحديث المدير بنجاح'
+    },
+    confirmations: {
+        unsaved_changes: 'لديك تغييرات غير محفوظة. هل أنت متأكد أنك تريد المغادرة؟',
+        confirm_navigation: 'تأكيد التنقل',
+        remove_admin: 'هل أنت متأكد أنك تريد إزالة هذا المدير؟',
+        confirm_remove_admin: 'تأكيد إزالة المدير',
+        accept: 'قبول',
+        reject: 'رفض',
+        yes: 'نعم',
+        no: 'لا'
+    },
+    select_roles: 'اختر الأدوار',
+    save_changes: 'حفظ التغييرات',
+    cancel: 'إلغاء',
+    admin_details: 'تفاصيل المدير',
+    edit_admin: 'تعديل المدير',
+    joined: 'تاريخ الانضمام',
+    drag_drop_image: 'اسحب وأفلت الصورة هنا أو انقر للتصفح',
+    created_at: 'تم الإنشاء في',
+    try_again: 'حاول مرة أخرى',
+    loading_admin: 'جاري تحميل بيانات المدير...'
 }

@@ -71,6 +71,6 @@ export async function getAllPermissions() {
 }
 
 export async function getAllRoles() {
-  const { data } = await api.get('roles')
+  const { data } = await adminApi.get('roles')
   return data
 }

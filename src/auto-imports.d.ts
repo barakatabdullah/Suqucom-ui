@@ -55,8 +55,10 @@ declare global {
   const unref: typeof import('vue')['unref']
   const useAdminStore: typeof import('./stores/admin')['useAdminStore']
   const useAttrs: typeof import('vue')['useAttrs']
+  const useCrud: typeof import('./composables/useCrud')['useCrud']
   const useCssModule: typeof import('vue')['useCssModule']
   const useCssVars: typeof import('vue')['useCssVars']
+  const useForm: typeof import('./composables/useForm')['useForm']
   const useId: typeof import('vue')['useId']
   const useLink: typeof import('vue-router/auto')['useLink']
   const useModel: typeof import('vue')['useModel']
@@ -64,6 +66,7 @@ declare global {
   const useRouter: typeof import('vue-router')['useRouter']
   const useSettingsStore: typeof import('./stores/settings')['useSettingsStore']
   const useSlots: typeof import('vue')['useSlots']
+  const useTable: typeof import('./composables/useTable')['useTable']
   const useTemplateRef: typeof import('vue')['useTemplateRef']
   const useUserStore: typeof import('./stores/user')['useUserStore']
   const watch: typeof import('vue')['watch']
@@ -132,8 +135,10 @@ declare module 'vue' {
     readonly unref: UnwrapRef<typeof import('vue')['unref']>
     readonly useAdminStore: UnwrapRef<typeof import('./stores/admin')['useAdminStore']>
     readonly useAttrs: UnwrapRef<typeof import('vue')['useAttrs']>
+    readonly useCrud: UnwrapRef<typeof import('./composables/useCrud')['useCrud']>
     readonly useCssModule: UnwrapRef<typeof import('vue')['useCssModule']>
     readonly useCssVars: UnwrapRef<typeof import('vue')['useCssVars']>
+    readonly useForm: UnwrapRef<typeof import('./composables/useForm')['useForm']>
     readonly useId: UnwrapRef<typeof import('vue')['useId']>
     readonly useLink: UnwrapRef<typeof import('vue-router/auto')['useLink']>
     readonly useModel: UnwrapRef<typeof import('vue')['useModel']>
@@ -141,6 +146,7 @@ declare module 'vue' {
     readonly useRouter: UnwrapRef<typeof import('vue-router')['useRouter']>
     readonly useSettingsStore: UnwrapRef<typeof import('./stores/settings')['useSettingsStore']>
     readonly useSlots: UnwrapRef<typeof import('vue')['useSlots']>
+    readonly useTable: UnwrapRef<typeof import('./composables/useTable')['useTable']>
     readonly useTemplateRef: UnwrapRef<typeof import('vue')['useTemplateRef']>
     readonly useUserStore: UnwrapRef<typeof import('./stores/user')['useUserStore']>
     readonly watch: UnwrapRef<typeof import('vue')['watch']>

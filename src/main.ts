@@ -11,6 +11,7 @@ import { ThemePreset } from './config/theme';
 import Tooltip from 'primevue/tooltip';
 import ToastService from 'primevue/toastservice';
 import { createI18n } from 'vue-i18n'
+import ConfirmationService from 'primevue/confirmationservice';
 
 import 'uno.css'
 
@@ -50,6 +51,8 @@ app.use(PrimeVue, {
 })
 app.directive('tooltip', Tooltip);
 app.use(ToastService);
+app.use(ConfirmationService);
+
 
 app.mount('#app')
 

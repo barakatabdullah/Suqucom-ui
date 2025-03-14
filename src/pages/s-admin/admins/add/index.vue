@@ -1,239 +1,375 @@
 <script lang="ts" setup>
-import { useMutation, useQuery } from '@tanstack/vue-query';
-import * as zod from 'zod'
-import { getAllPermissions, getAllRoles } from '@/utils/functions';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
+import * as zod from 'zod';
+import { getAllRoles } from '@/utils/functions';
 import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
-
-import Select from 'primevue/select';
-import { api } from '@/config/axios';
-
 import Toast from 'primevue/toast';
-
 import { useToast } from 'primevue/usetoast';
+import { createAdmin } from '../_utils/admins';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
+const router = useRouter();
 const toast = useToast();
+const queryClient = useQueryClient();
 
-const UserSchema = toTypedSchema(
+// Loading states
+const isSubmitting = ref(false);
+const selectedFile = ref<File | null>(null);
+const previewImage = ref<string | null>(null);
+
+// Form validation schema
+const AdminSchema = toTypedSchema(
     zod.object({
-        fname: zod.string().min(2, { message: 'First name must be at least 2 characters' }),
-        lname: zod.string().min(2, { message: 'Last name must be at least 2 characters' }),
-        email: zod.string().email({ message: 'Invalid Email' }),
-        password: zod.string().min(8, { message: 'Password must be at least 8 characters' }),
-        role: zod.number().refine((value) => value >= 0, { message: 'Role must be selected' }),
+        name: zod
+            .string()
+            .min(2, { message: t('validation.name_min_length') || 'Name must be at least 2 characters' }),
+        email: zod
+            .string()
+            .email({ message: t('validation.email_invalid') || 'Invalid email address' }),
+        roles: zod
+            .array(zod.number())
+            .min(1, { message: t('validation.role_required') || 'At least one role must be selected' }),
+        active: zod
+            .boolean()
+            .default(true),
+        password: zod
+            .string()
+            .min(6, { message: t('validation.password_min_length') || 'Password must be at least 6 characters' })
     })
-)
+);
 
 const { defineField, handleSubmit, errors, resetForm } = useForm({
-    validationSchema: UserSchema
-})
-
-const [fname] = defineField('fname');
-const [lname] = defineField('lname');
-const [email] = defineField('email');
-const [password] = defineField('password');
-const [role] = defineField('role');
-const fileupload = ref();
-
-
-
-// Mutation
-const { mutateAsync } = useMutation({
-    mutationFn: async (data: any) => {
-        const res = await api
-            .post('users', {
-                fname: data.fname,
-                lname: data.lname,
-                email: data.email,
-                password: data.password,
-                role: data.role,
-                avatar: fileupload.value.files[0]
-            }, {
-                headers: {
-                    'content-type': 'multipart/form-data'
-                }
-            })
-            .then((res) => res.data)
-        return res
-    },
-    onSuccess: () => {
-        resetForm()
-        fileupload.value.clear()
-        toast.add({ severity: 'info', summary: 'Success', detail: 'User added successfully', life: 3000 });
-    },
-    onError: (error) => {
-        toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
+    validationSchema: AdminSchema,
+    initialValues: {
+        name: '',
+        email: '',
+        roles: [],
+        active: true,
+        password: ''
     }
-})
-
-const onSubmit = handleSubmit((values) => {
-    mutateAsync(values)
-})
-
-
-
-
-const { data: permissions } = useQuery({
-    queryKey: ['permissions'],
-    queryFn: getAllPermissions,
 });
 
-const { data: roles } = useQuery({
+const [name] = defineField('name');
+const [email] = defineField('email');
+const [roles] = defineField('roles');
+const [active] = defineField('active');
+const [password] = defineField('password');
+
+// Fetch all roles for dropdown
+const { data: rolesData, isLoading: isLoadingRoles } = useQuery({
     queryKey: ['roles'],
     queryFn: getAllRoles,
     select: (data) => data.data,
 });
 
+// Handle file selection for avatar preview
+function onFileSelect(event: { files: any[]; }) {
+    const file = event.files?.[0];
+    if (file) {
+        selectedFile.value = file;
+        
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            if (e.target) {
+                previewImage.value = e.target.result as string;
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+}
 
+// Remove preview function
+function removePreview() {
+    previewImage.value = null;
+    selectedFile.value = null;
+}
 
+// Create admin mutation
+const { mutate: createAdminMutation, isPending } = useMutation({
+    mutationFn: (formData: FormData) => createAdmin(formData),
+    onSuccess: () => {
+        toast.add({
+            severity: 'success',
+            summary: t('success') || 'Success',
+            detail: t('add_success') || 'Admin added successfully',
+            life: 3000
+        });
+        queryClient.invalidateQueries({ queryKey: ['admins'] });
+        resetForm();
+        selectedFile.value = null;
+        previewImage.value = null;
+        router.push({ name: 'Admins' });
+    },
+    onError: (error: any) => {
+        toast.add({
+            severity: 'error',
+            summary: t('error') || 'Error',
+            detail: error.response?.data?.message || t('add_failed') || 'Failed to add admin',
+            life: 5000
+        });
+    }
+});
 
+const onSubmit = handleSubmit((values) => {
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('email', values.email);
+    formData.append('active', String(values.active));
+    formData.append('password', values.password);
 
+    // Handle roles
+    if (values.roles && values.roles.length > 0) {
+        values.roles.forEach((roleId: number, index: number) => {
+            formData.append(`roles[${index}]`, roleId.toString());
+        });
+    }
 
+    // Handle avatar if uploaded
+    if (selectedFile.value) {
+        formData.append('avatar', selectedFile.value);
+    }
 
+    // Use the mutation
+    createAdminMutation(formData);
+});
 
+// Function to go back to admin list
+function goBack() {
+    router.push({ name: 'Admins' });
+}
 </script>
 
-
 <template>
-    <div class="border rounded-6 w-full h-full p-9 flex flex-col gap-6">
+    <div class="border rounded-6 w-full h-full p-9 flex flex-col gap-6 dark:border-neutral-800">
         <Toast />
-        <div class="w-full flex items-center justify-between">
+        
+        <!-- Header with title and actions -->
+        <div class="w-full flex items-center justify-between mb-4">
             <div class="flex flex-col gap-2 items-start">
-                <h2 class="font-600 text-6 text-color">Add User</h2>
-                <p class="text-gray-600">You can add new user</p>
+                <div class="flex items-center gap-2">
+                    <Button class="rtl:rotate-180" icon="i-hugeicons-arrow-left-01" text @click="goBack" />
+                    <h2 class="font-600 text-6 text-color uppercase">
+                        {{ $t('add', { name: $t('admin.singular') }) || 'Add Admin' }}
+                    </h2>
+                </div>
+                <p class="text-gray-600 dark:text-gray-400">
+                    {{ $t('admin.discrption') || 'You can manage admins, edit or delete them' }}
+                </p>
             </div>
         </div>
-        <form @submit="onSubmit" class="w-full h-full grid grid-cols-8 gap-8 max-lg:grid-cols-1">
-            <div class="aspect-square col-span-2 max-lg:col-span-1">
 
-
-                <FileUpload :pt="{
-                    root: {
-                        class: 'h-full flex flex-col rounded-6!'
-                    },
-                    content: {
-                        class: 'h-full'
-                    },
-                    empty: {
-                        class: 'h-full '
-                    }
-
-                }" class="h-full" ref="fileupload" name="demo[]" accept="image/*" :maxFileSize="1000000" customUpload>
-                    <template #header="{ chooseCallback, clearCallback, files }">
-                        <div class="flex flex-wrap justify-between items-center flex-1 gap-4">
-                            <div class="flex gap-2">
-                                <Button @click="chooseCallback" icon="i-hugeicons-upload-03" rounded outlined
-                                    severity="primary" />
-
-                                <Button @click="clearCallback()" icon="i-hugeicons-cancel-01" rounded outlined
-                                    severity="danger" :disabled="!files || files.length === 0"></Button>
-                            </div>
-                        </div>
-                    </template>
-
-                    <template #content="{ files, uploadedFiles, removeUploadedFileCallback, removeFileCallback }">
-                        <div class="flex flex-col gap-8 pt-4">
-                            <div v-if="files.length > 0">
-                                <h5>Pending</h5>
-                                <div class="flex flex-wrap gap-4">
-                                    <div v-for="(file, index) of files" :key="file.name + file.type + file.size"
-                                        class="p-8 rounded-border flex flex-col border border-surface items-center gap-4">
-                                        <div>
-                                            <img role="presentation" :alt="file.name" :src="file.objectURL" width="100"
-                                                height="50" />
-                                        </div>
-                                        <span
-                                            class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{
-                                                file.name }}</span>
-                                        <!-- <div>{{ formatSize(file.size) }}</div> -->
-                                        <Badge value="Pending" severity="warn" />
-                                        <!-- <Button icon="pi pi-times" @click="onRemoveTemplatingFile(file, removeFileCallback, index)" outlined rounded severity="danger" /> -->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div v-if="uploadedFiles.length > 0">
-                                <h5>Completed</h5>
-                                <div class="flex flex-wrap gap-4">
-                                    <div v-for="(file, index) of uploadedFiles" :key="file.name + file.type + file.size"
-                                        class="p-8 rounded-border flex flex-col border border-surface items-center gap-4">
-                                        <div>
-                                            <img role="presentation" :alt="file.name" :src="file.objectURL" width="100"
-                                                height="50" />
-                                        </div>
-                                        <span
-                                            class="font-semibold text-ellipsis max-w-60 whitespace-nowrap overflow-hidden">{{
-                                                file.name }}</span>
-
-                                        <Badge value="Completed" class="mt-4" severity="success" />
-                                        <Button icon="pi pi-times" @click="removeUploadedFileCallback(index)" outlined
-                                            rounded severity="danger" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                    <template #empty>
-                        <div class="flex h-full items-center justify-center flex-col">
-                            <div class="flex items-center justify-center aspect-square border-2 rounded-full p-8">
-                                <i class="i-hugeicons-image-upload text-4xl text-muted-color" />
-                            </div>
-                            <p class="mt-6 mb-0">Drag and drop files to here to upload.</p>
-                        </div>
-                    </template>
-                </FileUpload>
-
-
-
-
-
+        <!-- Loading state -->
+        <div v-if="isLoadingRoles" class="flex justify-center items-center py-8">
+            <div class="flex flex-col items-center">
+                <ProgressSpinner style="width: 50px; height: 50px" />
+                <p class="mt-4 text-gray-600">{{ $t('loading') }}</p>
             </div>
+        </div>
 
-            <div class="col-span-6 flex flex-col gap-6 max-lg:col-span-1">
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="flex flex-col gap-1">
-                        <label class="text-[#4b465c82] text-3.5 font-semibold" for="fname">First Name</label>
-                        <InputText v-model="fname" :class="{ 'p-invalid': errors.fname }" />
-                        <span v-if="errors.fname" class="text-red-500">{{ errors.fname }}</span>
+        <!-- Admin form -->
+        <form v-else @submit.prevent="onSubmit" class="grid grid-cols-12 gap-6">
+            <!-- Left column: Avatar -->
+            <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+                <div class="bg-white dark:bg-neutral-900 rounded-xl shadow-sm overflow-hidden border border-neutral-200 dark:border-neutral-800">
+                    <!-- Profile image section -->
+                    <div class="p-5 border-b border-neutral-200 dark:border-neutral-800">
+                        <h3 class="text-lg font-semibold mb-4">{{ $t('profile_image') || 'Profile Image' }}</h3>
+                        
+                        <div class="flex flex-col items-center">
+                            <!-- Image preview -->
+                            <div v-if="previewImage" class="relative mb-4">
+                                <div class="h-48 w-48 rounded-full overflow-hidden shadow-md border-4 border-white dark:border-neutral-700">
+                                    <img :src="previewImage" alt="Avatar Preview" class="h-full w-full object-cover" />
+                                </div>
+                                <Button 
+                                    icon="i-hugeicons-cancel-01" 
+                                    class="absolute -top-2 -right-2 p-2 shadow-md"
+                                    severity="danger" 
+                                    rounded 
+                                    aria-label="Remove Image" 
+                                    @click="removePreview" 
+                                />
+                            </div>
+                            
+                            <!-- File uploader -->
+                            <FileUpload 
+                                v-else
+                                :multiple="false"
+                                accept="image/*"
+                                :maxFileSize="3000000"
+                                @select="onFileSelect"
+                                customUpload
+                                class="w-full"
+                                :pt="{
+                                    container: { class: 'w-full border-2 border-dashed border-gray-300 dark:border-neutral-700 rounded-lg p-6 text-center' }
+                                }"
+                            >
+                                <template #header="{ chooseCallback, clearCallback, files }">
+                                    <div class="flex justify-center gap-2">
+                                        <Button 
+                                            @click="chooseCallback" 
+                                            icon="i-hugeicons-upload-03" 
+                                            rounded
+                                            outlined 
+                                            severity="primary" 
+                                        />
+                                        <Button 
+                                            @click="clearCallback()"
+                                            icon="i-hugeicons-cancel-01" 
+                                            rounded
+                                            outlined 
+                                            severity="danger"
+                                            :disabled="!files || files.length === 0"
+                                        />
+                                    </div>
+                                </template>
+                                <template #empty>
+                                    <div class="flex flex-col items-center p-6">
+                                        <div class="flex items-center justify-center aspect-square border-2 rounded-full p-8">
+                                            <i class="i-hugeicons-image-upload text-4xl text-muted-color" />
+                                        </div>
+                                        <p class="mt-6 mb-0">{{ $t('drag_drop_image') || 'Drag and drop files to here to upload.' }}</p>
+                                    </div>
+                                </template>
+                            </FileUpload>
+                        </div>
                     </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-[#4b465c82] text-3.5 font-semibold" for="lname">Last Name</label>
-                        <InputText v-model="lname" :class="{ 'p-invalid': errors.lname }" />
-                        <span v-if="errors.lname" class="text-red-500">{{ errors.lname }}</span>
-                    </div>
-                    <div class="flex flex-col gap-1 col-span-2">
-                        <label class="text-[#4b465c82] text-3.5 font-semibold" for="email">Email</label>
-                        <InputText id="email" v-model="email" :class="{ 'p-invalid': errors.email }" />
-                        <span v-if="errors.email" class="text-red-500">{{ errors.email }}</span>
-                    </div>
-                    <div class="flex flex-col gap-1 col-span-2">
-                        <label class="font-semibold text-[#4b465c82] text-3.5" for="password">Password</label>
-                        <Password id="password" v-model="password" :feedback="false" :pt="{
-                            pcinput: {
-                                root: {
-                                    class: 'w-full'
-                                }
-                            }
-                        }" :invalid="errors.password" />
-                        <span v-if="errors.password" class="text-red-500">{{ errors.password }}</span>
-                    </div>
-                    <div class="flex flex-col gap-1">
-                        <label class="text-[#4b465c82] text-3.5 font-semibold" for="role">Role</label>
-                        <Select v-model="role" :options="roles" optionLabel="name" optionValue="id"
-                            placeholder="select a role" :class="{ 'p-invalid': errors.role }" />
-                        <span v-if="errors.role" class="text-red-500">{{ errors.role }}</span>
-                    </div>
-                    <Button class="col-span-2" type="submit" label="Add" />
-
-
                 </div>
             </div>
 
+            <!-- Right column: Form Fields -->
+            <div class="col-span-12 lg:col-span-8">
+                <div class="bg-white dark:bg-neutral-900 rounded-xl shadow-sm overflow-hidden border border-neutral-200 dark:border-neutral-800">
+                    <!-- Details header -->
+                    <div class="bg-gray-50 dark:bg-neutral-800 p-5 border-b border-neutral-200 dark:border-neutral-700">
+                        <h3 class="font-semibold text-lg">
+                            {{ $t('admin_details') || 'Admin Details' }}
+                        </h3>
+                    </div>
 
+                    <!-- Form fields -->
+                    <div class="p-5 space-y-6">
+                        <!-- Basic info fields -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Name field -->
+                            <div class="flex flex-col">
+                                <label for="name" class="text-sm font-medium mb-1">
+                                    {{ $t('name') || 'Name' }} *
+                                </label>
+                                <div class="p-input-icon-left w-full">
+                                    <i class="pi pi-user"></i>
+                                    <InputText 
+                                        id="name" 
+                                        v-model="name" 
+                                        :class="{ 'p-invalid': errors.name }" 
+                                        class="w-full" 
+                                        placeholder="Enter full name"
+                                    />
+                                </div>
+                                <small class="p-error mt-1">{{ errors.name || '' }}</small>
+                            </div>
+
+                            <!-- Email field -->
+                            <div class="flex flex-col">
+                                <label for="email" class="text-sm font-medium mb-1">
+                                    {{ $t('email') || 'Email' }} *
+                                </label>
+                                <div class="p-input-icon-left w-full">
+                                    <i class="pi pi-envelope"></i>
+                                    <InputText 
+                                        id="email" 
+                                        v-model="email" 
+                                        :class="{ 'p-invalid': errors.email }" 
+                                        class="w-full" 
+                                        placeholder="Enter email address"
+                                    />
+                                </div>
+                                <small class="p-error mt-1">{{ errors.email || '' }}</small>
+                            </div>
+                        </div>
+
+                        <!-- Password field -->
+                        <div class="flex flex-col">
+                            <label for="password" class="text-sm font-medium mb-1">
+                                {{ $t('password') || 'Password' }} *
+                            </label>
+                            <Password 
+                                id="password" 
+                                v-model="password" 
+                                :feedback="false"
+                                toggleMask
+                                :class="{ 'p-invalid': errors.password }"
+                                class="w-full" 
+                                :pt="{
+                                    input: {
+                                        class: 'w-full'
+                                    }
+                                }"
+                            />
+                            <small class="p-error mt-1">{{ errors.password || '' }}</small>
+                        </div>
+
+                        <!-- Roles selection -->
+                        <div class="flex flex-col">
+                            <label for="roles" class="text-sm font-medium mb-1">
+                                {{ $t('role.plural') || 'Roles' }} *
+                            </label>
+                            <MultiSelect 
+                                id="roles" 
+                                v-model="roles" 
+                                :options="rolesData" 
+                                optionLabel="name" 
+                                optionValue="id"
+                                :placeholder="$t('select_roles') || 'Select roles'" 
+                                :class="{ 'p-invalid': errors.roles }"
+                                display="chip"
+                                class="w-full"
+                            >
+                                <template #option="slotProps">
+                                    <div class="flex items-center justify-between w-full">
+                                        <div>{{ slotProps.option.name }}</div>
+                                        <Tag 
+                                            v-if="slotProps.option.name === 'Super Admin'" 
+                                            severity="danger" 
+                                            value="Super" 
+                                            class="text-xs"
+                                        />
+                                    </div>
+                                </template>
+                            </MultiSelect>
+                            <small class="p-error mt-1">{{ errors.roles || '' }}</small>
+                        </div>
+
+                        <!-- Status toggle -->
+                        <div class="flex items-center gap-2">
+                            <label class="font-medium">{{ $t('account_active') || 'Account Active' }}</label>
+                            <InputSwitch v-model="active" />
+                        </div>
+
+                        <!-- Action buttons -->
+                        <div class="flex gap-2 justify-end pt-4 border-t border-gray-200 dark:border-neutral-700 mt-6">
+                            <Button 
+                                type="button"
+                                @click="goBack"
+                                icon="pi pi-times"
+                                :label="$t('cancel') || 'Cancel'" 
+                                outlined
+                                :disabled="isPending"
+                            />
+                            <Button 
+                                type="submit" 
+                                icon="pi pi-check"
+                                :label="$t('submit') || 'Submit'" 
+                                :loading="isPending"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
-
-
-
     </div>
 </template>
 
