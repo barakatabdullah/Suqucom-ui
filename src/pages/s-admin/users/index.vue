@@ -143,7 +143,7 @@ function resetFilters() {
     <div class="w-full flex items-center justify-between">
       <div class="flex flex-col gap-2 items-start">
         <h2 class="font-600 text-6 text-color uppercase">{{ $t('user.plural') }}</h2>
-        <p class="text-gray-600 dark:text-gray-400">{{ $t('user.discrption') }}</p>
+        <p class="text-gray-600 dark:text-gray-400">{{ $t('user.description') }}</p>
       </div>
 
       <Button @click="() => $router.push({ name: 'Users-add' })" :label="$t('add', { name: $t('user.singular') })" />
@@ -177,6 +177,30 @@ function resetFilters() {
         }
       }" :loading="isLoading" class="rounded-xl border overflow-hidden dark:border-none" rowHover
         @rowClick="onRowClick" @sort="applySorting" :value="data?.data">
+
+        <Column field="avatar" :header="$t('avatar')" style="width: 100px">
+          <template #body="slotProps">
+            <div class="flex justify-center">
+              <Avatar 
+                v-if="slotProps.data.avatar" 
+                :image="slotProps.data.avatar" 
+                size="large" 
+                shape="circle" 
+                :pt="{ image: { class: 'object-cover' } }" 
+              />
+              <Avatar 
+                v-else 
+                :label="slotProps.data.name?.charAt(0)" 
+                size="large" 
+                shape="circle" 
+                style="background-color: var(--primary-color); color: var(--primary-color-text)" 
+              />
+            </div>
+          </template>
+        </Column>
+
+
+
         <Column field="name" :header="$t('name')" :sortable="true">
           <template #body="slotProps">
             <div class="text-start w-full"> {{ slotProps.data.name }}</div>

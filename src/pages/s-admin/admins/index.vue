@@ -160,7 +160,7 @@ function resetFilters() {
     <div class="w-full flex items-center justify-between">
       <div class="flex flex-col gap-2 items-start">
         <h2 class="font-600 text-6 text-color uppercase">{{ $t('admin.plural') }}</h2>
-        <p class="text-gray-600 dark:text-gray-400">{{ $t('admin.discrption') }}</p>
+        <p class="text-gray-600 dark:text-gray-400">{{ $t('admin.description') }}</p>
       </div>
 
       <Button @click="() => $router.push({ name: 'Admins-add' })" :label="$t('add', { name: $t('admin.singular') })" />

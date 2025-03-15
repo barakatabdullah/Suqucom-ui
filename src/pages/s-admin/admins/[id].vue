@@ -242,7 +242,7 @@ function goBack() {
 // Define translation fallbacks for missing keys
 const viewText = computed(() => t('view') || 'View');
 const editText = computed(() => t('edit') || 'Edit');
-const adminDesc = computed(() => t('admin.discrption') || 'Manage admin details');
+const adminDesc = computed(() => t('admin.description') || 'Manage admin details');
 </script>
 
 <template>

@@ -156,7 +156,7 @@ function goBack() {
                     </h2>
                 </div>
                 <p class="text-gray-600 dark:text-gray-400">
-                    {{ $t('admin.discrption') || 'You can manage admins, edit or delete them' }}
+                    {{ $t('admin.description') || 'You can manage admins, edit or delete them' }}
                 </p>
             </div>
         </div>

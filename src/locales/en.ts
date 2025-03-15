@@ -8,6 +8,17 @@ export const en={
     login: 'Login',
     joined_at: 'Joined At',
 
+    // User-specific fields
+    first_name: 'First Name',
+    last_name: 'Last Name',
+
+    avatar: 'Avatar',
+    select_role: 'Select role',
+    no_role_assigned: 'No role assigned',
+    user_details: 'User Details',
+    edit_user: 'Edit User',
+    loading_user: 'Loading user information...',
+
     profile: 'Profile',
     settings: 'Settings',
     logout: 'Logout',
@@ -39,22 +50,22 @@ export const en={
     admin: {
         singular: 'Admin',
         plural: 'Admins',
-        discrption: 'You can Manage Admins , Edit or Delete them',
+        description: 'You can Manage Admins , Edit or Delete them',
     },
     user:{
         singular: 'User',
         plural: 'Users',
-        discrption: 'You can Manage Users , Edit or Delete them',
+        description: 'You can Manage Users , Edit or Delete them',
     },
     permission:{
         singular: 'Permission',
         plural: 'Permissions',
-        discrption: 'You can Manage Permissions , Edit or Delete them',
+        description: 'You can Manage Permissions , Edit or Delete them',
     },
     role:{
         singular: 'Role',
         plural: 'Roles',
-        discrption: 'You can Manage Roles , Edit or Delete them',
+        description: 'You can Manage Roles , Edit or Delete them',
     },
 
     search: 'Search',
@@ -99,17 +110,27 @@ export const en={
     validation: {
         required: 'This field is required',
         name_min_length: 'Name must be at least 2 characters',
+        fname_min_length: 'First name must be at least 2 characters',
+        lname_min_length: 'Last name must be at least 2 characters',
         email_invalid: 'Invalid email address',
         role_required: 'At least one role must be selected',
         password_min_length: 'Password must be at least 6 characters'
     },
     errors: {
-        failed_to_load_data: 'Failed to load admin data',
-        data_load_error: 'Unable to retrieve the information for this admin user',
-        update_failed: 'Failed to update admin'
+        failed_to_load_data: 'Failed to load data',
+        data_load_error: 'Unable to retrieve the information',
+        admin_load_error: 'Unable to retrieve the information for this admin user',
+        user_load_error: 'Unable to retrieve the information for this user',
+        update_failed: 'Update failed',
+        admin_update_failed: 'Failed to update admin',
+        user_update_failed: 'Failed to update user',
+        failed_to_load_admin_data: 'Failed to load admin data',
+        failed_to_load_user_data: 'Failed to load user data'
     },
     success: {
-        update_success: 'Admin updated successfully'
+        update_success: 'Updated successfully',
+        admin_update_success: 'Admin updated successfully',
+        user_update_success: 'User updated successfully'
     },
     confirmations: {
         unsaved_changes: 'You have unsaved changes. Are you sure you want to leave?',

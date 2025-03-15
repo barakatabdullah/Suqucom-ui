@@ -8,6 +8,17 @@ export const ar={
     login: 'تسجيل الدخول',
     joined_at: 'تاريخ الإنضمام',
 
+    // User-specific fields
+    first_name: 'الاسم الأول',
+    last_name: 'اسم العائلة',
+
+    avatar: 'الصورة ',
+    select_role: 'اختر الدور',
+    no_role_assigned: 'لم يتم تعيين دور',
+    user_details: 'تفاصيل المستخدم',
+    edit_user: 'تعديل المستخدم',
+    loading_user: 'جاري تحميل بيانات المستخدم...',
+
     profile: 'الملف الشخصي',
     settings: 'الإعدادات',
     logout: 'تسجيل الخروج',
@@ -39,22 +50,22 @@ export const ar={
     admin: {
         singular: 'مدير',
         plural: 'المدراء',
-        discrption: 'يمكنك إدارة المدراء، تعديلهم أو حذفهم',
+        description: 'يمكنك إدارة المدراء، تعديلهم أو حذفهم',
     },
     user:{
         singular: 'مستخدم',
         plural: 'المستخدمين',
-        discrption: 'يمكنك إدارة المستخدمين، تعديلهم أو حذفهم',
+        description: 'يمكنك إدارة المستخدمين، تعديلهم أو حذفهم',
     },
     permission:{
         singular: 'صلاحية',
         plural: 'الصلاحيات',
-        discrption: 'يمكنك إدارة الصلاحيات، تعديلها أو حذفها',
+        description: 'يمكنك إدارة الصلاحيات، تعديلها أو حذفها',
     },
     role:{
         singular: 'دور',
         plural: 'الأدوار',
-        discrption: 'يمكنك إدارة الأدوار، تعديلها أو حذفها',
+        description: 'يمكنك إدارة الأدوار، تعديلها أو حذفها',
     },
 
     search: 'بحث',
@@ -99,17 +110,27 @@ export const ar={
     validation: {
         required: 'هذا الحقل مطلوب',
         name_min_length: 'يجب أن يكون الاسم أكثر من حرفين على الأقل',
+        fname_min_length: 'يجب أن يكون الاسم الأول أكثر من حرفين على الأقل',
+        lname_min_length: 'يجب أن يكون اسم العائلة أكثر من حرفين على الأقل',
         email_invalid: 'عنوان البريد الإلكتروني غير صالح',
         role_required: 'يجب اختيار دور واحد على الأقل',
         password_min_length: 'يجب أن تحتوي كلمة المرور على 6 أحرف على الأقل'
     },
     errors: {
-        failed_to_load_data: 'فشل تحميل بيانات المدير',
-        data_load_error: 'تعذر استرجاع معلومات هذا المدير',
-        update_failed: 'فشل تحديث المدير'
+        failed_to_load_data: 'فشل تحميل البيانات',
+        data_load_error: 'تعذر استرجاع المعلومات',
+        admin_load_error: 'تعذر استرجاع معلومات هذا المدير',
+        user_load_error: 'تعذر استرجاع معلومات هذا المستخدم',
+        update_failed: 'فشل التحديث',
+        admin_update_failed: 'فشل تحديث المدير',
+        user_update_failed: 'فشل تحديث المستخدم',
+        failed_to_load_admin_data: 'فشل تحميل بيانات المدير',
+        failed_to_load_user_data: 'فشل تحميل بيانات المستخدم'
     },
     success: {
-        update_success: 'تم تحديث المدير بنجاح'
+        update_success: 'تم التحديث بنجاح',
+        admin_update_success: 'تم تحديث المدير بنجاح',
+        user_update_success: 'تم تحديث المستخدم بنجاح'
     },
     confirmations: {
         unsaved_changes: 'لديك تغييرات غير محفوظة. هل أنت متأكد أنك تريد المغادرة؟',
