@@ -277,16 +277,11 @@ function goBack() {
                                 <label for="email" class="text-sm font-medium mb-1">
                                     {{ $t('email') || 'Email' }} *
                                 </label>
-                                <div class="p-input-icon-left w-full">
-                                    <i class="pi pi-envelope"></i>
-                                    <InputText 
-                                        id="email" 
-                                        v-model="email" 
-                                        :class="{ 'p-invalid': errors.email }" 
-                                        class="w-full" 
-                                        placeholder="Enter email address"
-                                    />
-                                </div>
+                                <IconField>
+                                        <InputIcon class="i-hugeicons-mail-01"/>
+                                        <InputText id="email" v-model="email" :class="{ 'p-invalid': errors.email }"
+                                            class="w-full" placeholder="Enter email address" />
+                                    </IconField>
                                 <small class="p-error mt-1">{{ errors.email || '' }}</small>
                             </div>
                         </div>

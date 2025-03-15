@@ -7,6 +7,8 @@ import { toTypedSchema } from '@vee-validate/zod';
 import { useForm } from 'vee-validate';
 import { useToast } from 'primevue/usetoast';
 import ConfirmDialog from 'primevue/confirmdialog';
+import IconField from 'primevue/iconfield';
+import InputIcon from 'primevue/inputicon';
 import { useConfirm } from "primevue/useconfirm";
 import Toast from 'primevue/toast';
 import { useI18n } from 'vue-i18n';
@@ -445,11 +447,11 @@ const userDesc = computed(() => t('user.description') || 'Manage user details');
                                     <label for="email" class="text-sm font-medium mb-1">
                                         {{ $t('email') || 'Email' }} *
                                     </label>
-                                    <div class="p-input-icon-left w-full">
-                                        <i class="i-hugeicons-mail-01"></i>
+                                    <IconField>
+                                        <InputIcon class="i-hugeicons-mail-01"/>
                                         <InputText id="email" v-model="email" :class="{ 'p-invalid': errors.email }"
                                             class="w-full" placeholder="Enter email address" />
-                                    </div>
+                                    </IconField>
                                     <small class="p-error mt-1">{{ errors.email || '' }}</small>
                                 </div>
                             </div>
