@@ -1,26 +1,22 @@
 <script lang="ts" setup>
-import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query';
-import { getCategories } from './_utils/products';
-import moment from 'moment';
-import Toast from 'primevue/toast';
-import { useToast } from 'primevue/usetoast';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { getCategories } from "./_utils/products";
+import moment from "moment";
+import Toast from "primevue/toast";
+import { useToast } from "primevue/usetoast";
 
-
-const router = useRouter()
+const router = useRouter();
 const toast = useToast();
 const queryClient = useQueryClient();
 
-
-
 const { data } = useQuery({
-  queryKey: ['categories'],
+  queryKey: ["categories"],
   queryFn: getCategories,
-  select: (data) => data.data
-})
+  select: (data) => data.data,
+});
 
 function onRowClick(row: any) {
-  router.push({ name: 'Users-id', params: { id: row.data.id } })
-
+  router.push({ name: "Users-id", params: { id: row.data.id } });
 }
 
 // const { mutateAsync:removeMutate } = useMutation({
@@ -35,7 +31,6 @@ function onRowClick(row: any) {
 //         toast.add({ severity: 'error', summary: 'Error', detail: error, life: 3000 });
 //     }
 // })
-
 </script>
 
 <template>
@@ -47,15 +42,24 @@ function onRowClick(row: any) {
         <p class="text-gray-600">You can View, Add, Edit and Remove products</p>
       </div>
 
-      <Button @click="() => $router.push({ name: 'Products-add' })" label="Add Product" />
+      <Button
+        @click="() => $router.push({ name: 'Products-add' })"
+        label="Add Product"
+      />
     </div>
 
     <div class="h-full overflow-y-auto">
-      <DataTable :pt="{
-        bodyRow: {
-          class: 'cursor-pointer'
-        }
-      }" class="rounded-lg border overflow-hidden" rowHover @rowClick="onRowClick" :value="data">
+      <DataTable
+        :pt="{
+          bodyRow: {
+            class: 'cursor-pointer',
+          },
+        }"
+        class="rounded-lg border overflow-hidden"
+        rowHover
+        @rowClick="onRowClick"
+        :value="data"
+      >
         <Column filed="name" header="Name">
           <template #body="slotProps">
             {{ slotProps.data.name }}
@@ -69,12 +73,12 @@ function onRowClick(row: any) {
         </Column>
         <Column filed="active" header="Active">
           <template #body="slotProps">
-            {{ slotProps.data.active ? 'Yes' : 'No' }}
+            {{ slotProps.data.active ? "Yes" : "No" }}
           </template>
         </Column>
         <Column filed="published" header="Published">
           <template #body="slotProps">
-            {{ slotProps.data.published ? 'Yes' : 'No' }}
+            {{ slotProps.data.published ? "Yes" : "No" }}
           </template>
         </Column>
         <Column filed="order" header="Order">
@@ -92,8 +96,17 @@ function onRowClick(row: any) {
         <Column filed="edit">
           <template #body="slotProps">
             <Button
-              @click="() => $router.push({ name: 'Users-id', params: { id: slotProps.data.id }, query: { mode: 'edit' } })"
-              icon="i-heroicons-pencil-square" text />
+              @click="
+                () =>
+                  $router.push({
+                    name: 'Users-id',
+                    params: { id: slotProps.data.id },
+                    query: { mode: 'edit' },
+                  })
+              "
+              icon="i-heroicons-pencil-square"
+              text
+            />
           </template>
         </Column>
         <Column filed="remove">
@@ -101,22 +114,14 @@ function onRowClick(row: any) {
             <Button icon="i-heroicons-trash" text severity="danger" />
           </template>
         </Column>
-
-
-
-
-
-
       </DataTable>
     </div>
   </div>
 </template>
 
-
 <route lang="yaml">
-  name: Products
-  meta:
-    layout: admin
-    requiresAuth: true
-
+name: Products
+meta:
+  layout: admin
+  requiresAuth: true
 </route>

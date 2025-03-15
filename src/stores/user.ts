@@ -1,22 +1,22 @@
-import { defineStore } from 'pinia'
-import { useRouter } from 'vue-router'
+import { defineStore } from "pinia";
+import { useRouter } from "vue-router";
 
-const router = useRouter()
+const router = useRouter();
 
-export const useUserStore = defineStore('User', {
+export const useUserStore = defineStore("User", {
   state: () => {
     return {
       user: {
-        name: localStorage.getItem('user'),
-        role: localStorage.getItem('role'),
-        token: localStorage.getItem('token')
-      }
-    }
+        name: localStorage.getItem("user"),
+        role: localStorage.getItem("role"),
+        token: localStorage.getItem("token"),
+      },
+    };
   },
   actions: {
     getUserToken() {
-      return this.user.token
-    }
+      return this.user.token;
+    },
 
     // logout() {
     //   api
@@ -39,10 +39,5 @@ export const useUserStore = defineStore('User', {
     //       this.user.token = localStorage.getItem('token')
     //     })
     // },
-
-  }
-})
-
-
-
-
+  },
+});

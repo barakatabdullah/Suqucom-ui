@@ -1,7 +1,5 @@
 {
-  "include": [
-    "./typed-router.d.ts"
-  ],
+  "include": ["./typed-router.d.ts"],
   "files": [],
   "references": [
     {

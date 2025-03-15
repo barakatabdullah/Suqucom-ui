@@ -10,7 +10,7 @@ const toggleColorScheme = () => {
 </template>
 
 <route lang="yaml">
-  name: Home
-  meta:
-  requiresAuth: true
-  </route>
+name: Home
+meta:
+requiresAuth: true
+</route>

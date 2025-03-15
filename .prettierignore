@@ -1,0 +1,6 @@
+# Ignore artifacts:
+build
+coverage
+src/typed-router.d.ts
+components.d.ts
+src/auto-imports.d.ts

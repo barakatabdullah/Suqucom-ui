@@ -1,24 +1,23 @@
 @layer tailwind-base, primevue;
 
-@import '@unocss/reset/tailwind.css'layer(tailwind-reset) ;
+@import "@unocss/reset/tailwind.css" layer(tailwind-reset);
 
 /*@unocss*/
 
-*{
-    font-size : calc(0.3rem + 0.5vw);
+* {
+  font-size: calc(0.3rem + 0.5vw);
 }
 
 html[dir="rtl"] {
-    font-family: 'Cairo', sans-serif;
+  font-family: "Cairo", sans-serif;
 }
 
 html[dir="ltr"] {
-    font-family: 'Red Hat Display Variable', sans-serif;
+  font-family: "Red Hat Display Variable", sans-serif;
 }
 
-
-body{
-    width:100vw;
-    min-height:100vh;
-    overflow-x:hidden;
+body {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
 }

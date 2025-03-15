@@ -1,11 +1,8 @@
-<template>
-    General-settings
-</template>
+<template>General-settings</template>
 
 <route lang="yaml">
-    name: General-settings
-    meta:
-      layout: admin
-      requiresAuth: true
-  
-  </route>
+name: General-settings
+meta:
+  layout: admin
+  requiresAuth: true
+</route>
