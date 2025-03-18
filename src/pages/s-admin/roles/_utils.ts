@@ -1,11 +1,11 @@
-import { api } from "@/config/axios";
+import { adminApi } from "@/config/axios";
 
 export async function getRoleById(id: number) {
-  const { data } = await api.get(`roles/${id}`);
+  const { data } = await adminApi.get(`roles/${id}`);
   return data;
 }
 
 export async function deleteRole(id: number) {
-  const { data } = await api.delete(`roles/${id}`);
+  const { data } = await adminApi.delete(`roles/${id}`);
   return data;
 }

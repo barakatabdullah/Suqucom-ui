@@ -155,4 +155,5 @@ export const en = {
   created_at: "Created At",
   try_again: "Try Again",
   loading_admin: "Loading admin information...",
+  guard_name: "Guard Name",
 };

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// @ts-nocheck 
+// @ts-nocheck
 import { useForm } from "vee-validate";
 import * as zod from "zod";
 import { toTypedSchema } from "@vee-validate/zod";

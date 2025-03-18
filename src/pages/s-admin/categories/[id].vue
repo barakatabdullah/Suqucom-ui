@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// @ts-nocheck 
+// @ts-nocheck
 import { toTypedSchema } from "@vee-validate/zod";
 import Toast from "primevue/toast";
 import * as zod from "zod";

@@ -154,4 +154,5 @@ export const ar = {
   created_at: "تم الإنشاء في",
   try_again: "حاول مرة أخرى",
   loading_admin: "جاري تحميل بيانات المدير...",
+  guard_name: "اسم الحارس",
 };
