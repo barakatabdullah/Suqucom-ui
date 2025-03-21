@@ -23,7 +23,6 @@ const {
 } = useQuery({
   queryKey: ["roles"],
   queryFn: getAllRoles,
-  select: (data) => data.data,
 });
 
 function onRowClick(row: any) {
@@ -77,7 +76,7 @@ const { mutateAsync: removeMutate, isPending: isDeleting } = useMutation({
 
 <template>
   <div
-    class="border rounded-6 w-full h-full p-9 flex flex-col gap-6 bg-white dark:bg-gray-900 shadow-sm"
+    class="border rounded-6 w-full h-full p-9 flex flex-col gap-6 dark:border-neutral-800"
   >
     <Toast />
     <ConfirmDialog class="min-w-30rem" group="roleDelete">
@@ -114,7 +113,9 @@ const { mutateAsync: removeMutate, isPending: isDeleting } = useMutation({
           <i class="i-heroicons-user-group text-6 text-primary"></i>
           <h2 class="font-600 text-6 text-color">{{ t("role.plural") }}</h2>
         </div>
-        <p class="text-gray-600">{{ t("role.description") }}</p>
+        <p class="text-gray-600 dark:text-gray-400">
+          {{ t("role.description") }}
+        </p>
       </div>
 
       <Button
@@ -179,15 +180,13 @@ const { mutateAsync: removeMutate, isPending: isDeleting } = useMutation({
         v-else
         :pt="{
           bodyRow: {
-            class:
-              'cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors',
+            class: 'cursor-pointer ',
           },
         }"
-        class="rounded-lg border overflow-hidden"
+        class="rounded-xl border overflow-hidden dark:border-none"
         rowHover
         @rowClick="onRowClick"
         :value="roles"
-        stripedRows
         tableStyle="min-width: 50rem"
       >
         <Column field="name" :header="t('name')" sortable>

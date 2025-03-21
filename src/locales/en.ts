@@ -65,7 +65,15 @@ export const en = {
   role: {
     singular: "Role",
     plural: "Roles",
-    description: "You can Manage Roles , Edit or Delete them",
+    description: "You can Manage Roles, Edit or Delete them",
+    edit: "Edit Role",
+    edit_subtitle: "You can View, Edit and Remove role",
+    permissions: "Permissions",
+    select_all: "Select All",
+    select_all_description: "Enable all Permissions currently available",
+    guard_name_description: "System identifier for this role",
+    updated_success: "Role updated successfully",
+    updated_error: "Failed to update role",
   },
 
   search: "Search",
@@ -156,4 +164,6 @@ export const en = {
   try_again: "Try Again",
   loading_admin: "Loading admin information...",
   guard_name: "Guard Name",
+
+  access_control: "Access Control",
 };

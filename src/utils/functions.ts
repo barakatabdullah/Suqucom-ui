@@ -63,7 +63,7 @@ export async function getUser() {
 }
 
 export async function getAllPermissions() {
-  const { data } = await api.get("permissions");
+  const { data } = await adminApi.get("permissions");
   return data;
 }
 

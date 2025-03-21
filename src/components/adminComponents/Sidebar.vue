@@ -35,7 +35,7 @@ const navItems = ref<NavItem[]>([
     ],
   },
   {
-    label: "Roles",
+    label: t("access_control"),
     icon: "i-hugeicons-mentoring",
     route: "Roles" as const,
   },

@@ -14,7 +14,7 @@ declare global {
   type Permission = {
     id: number;
     name: string;
-    key: string;
+    action: string;
     guard_name: string;
   };
 

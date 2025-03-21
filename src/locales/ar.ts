@@ -66,6 +66,14 @@ export const ar = {
     singular: "دور",
     plural: "الأدوار",
     description: "يمكنك إدارة الأدوار، تعديلها أو حذفها",
+    edit: "تعديل دور",
+    edit_subtitle: "يمكنك عرض وتعديل وإزالة الدور",
+    permissions: "الصلاحيات",
+    select_all: "تحديد الكل",
+    select_all_description: "تمكين جميع الصلاحيات المتاحة حاليًا",
+    guard_name_description: "معرف النظام لهذا الدور",
+    updated_success: "تم تحديث الدور بنجاح",
+    updated_error: "فشل تحديث الدور",
   },
 
   search: "بحث",
@@ -155,4 +163,6 @@ export const ar = {
   try_again: "حاول مرة أخرى",
   loading_admin: "جاري تحميل بيانات المدير...",
   guard_name: "اسم الحارس",
+
+  access_control: "إدارة الوصول",
 };
