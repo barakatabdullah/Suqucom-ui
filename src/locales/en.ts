@@ -72,8 +72,14 @@ export const en = {
     select_all: "Select All",
     select_all_description: "Enable all Permissions currently available",
     guard_name_description: "System identifier for this role",
+    created_success: "Role created successfully",
+    created_error: "Failed to create role",
     updated_success: "Role updated successfully",
     updated_error: "Failed to update role",
+    add: "Add Role",
+    add_subtitle: "You can create a new role and assign permissions",
+    add_success: "Role created successfully",
+    add_error: "Failed to create role",
   },
 
   search: "Search",
@@ -136,6 +142,8 @@ export const en = {
     failed_to_load_user_data: "Failed to load user data",
   },
   success: {
+    add_success: "Added successfully",
+    add_error: "Failed to add",
     update_success: "Updated successfully",
     admin_update_success: "Admin updated successfully",
     user_update_success: "User updated successfully",
